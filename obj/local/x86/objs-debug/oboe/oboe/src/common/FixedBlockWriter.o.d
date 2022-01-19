@@ -1,8 +1,8 @@
-./obj/local/x86/objs-debug/oboe/oboe/src/common/FixedBlockWriter.o: \
-  jni/oboe/src/common/FixedBlockWriter.cpp \
+/Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/obj/local/x86/objs-debug/oboe/oboe/src/common/FixedBlockWriter.o: \
+  /Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/src/common/FixedBlockWriter.cpp \
   /Users/hungly/Library/Android/android-ndk-r21d/sources/cxx-stl/llvm-libc++/include/stdint.h \
   /Users/hungly/Library/Android/android-ndk-r21d/sources/cxx-stl/llvm-libc++/include/__config \
-  jni/oboe/src/common/FixedBlockAdapter.h \
+  /Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/src/common/FixedBlockAdapter.h \
   /Users/hungly/Library/Android/android-ndk-r21d/sources/cxx-stl/llvm-libc++/include/memory \
   /Users/hungly/Library/Android/android-ndk-r21d/sources/cxx-stl/llvm-libc++/include/type_traits \
   /Users/hungly/Library/Android/android-ndk-r21d/sources/cxx-stl/llvm-libc++/include/cstddef \
@@ -28,13 +28,13 @@
   /Users/hungly/Library/Android/android-ndk-r21d/sources/cxx-stl/llvm-libc++/include/stdexcept \
   /Users/hungly/Library/Android/android-ndk-r21d/sources/cxx-stl/llvm-libc++/include/cassert \
   /Users/hungly/Library/Android/android-ndk-r21d/sources/cxx-stl/llvm-libc++/include/atomic \
-  jni/oboe/src/common/FixedBlockWriter.h
+  /Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/src/common/FixedBlockWriter.h
 
 /Users/hungly/Library/Android/android-ndk-r21d/sources/cxx-stl/llvm-libc++/include/stdint.h:
 
 /Users/hungly/Library/Android/android-ndk-r21d/sources/cxx-stl/llvm-libc++/include/__config:
 
-jni/oboe/src/common/FixedBlockAdapter.h:
+/Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/src/common/FixedBlockAdapter.h:
 
 /Users/hungly/Library/Android/android-ndk-r21d/sources/cxx-stl/llvm-libc++/include/memory:
 
@@ -86,4 +86,4 @@ jni/oboe/src/common/FixedBlockAdapter.h:
 
 /Users/hungly/Library/Android/android-ndk-r21d/sources/cxx-stl/llvm-libc++/include/atomic:
 
-jni/oboe/src/common/FixedBlockWriter.h:
+/Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/src/common/FixedBlockWriter.h:

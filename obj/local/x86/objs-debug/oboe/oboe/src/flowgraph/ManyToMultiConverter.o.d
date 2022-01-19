@@ -1,6 +1,6 @@
-./obj/local/x86/objs-debug/oboe/oboe/src/flowgraph/ManyToMultiConverter.o: \
-  jni/oboe/src/flowgraph/ManyToMultiConverter.cpp \
-  jni/oboe/src/flowgraph/ManyToMultiConverter.h \
+/Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/obj/local/x86/objs-debug/oboe/oboe/src/flowgraph/ManyToMultiConverter.o: \
+  /Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/src/flowgraph/ManyToMultiConverter.cpp \
+  /Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/src/flowgraph/ManyToMultiConverter.h \
   /Users/hungly/Library/Android/android-ndk-r21d/sources/cxx-stl/llvm-libc++/include/vector \
   /Users/hungly/Library/Android/android-ndk-r21d/sources/cxx-stl/llvm-libc++/include/__config \
   /Users/hungly/Library/Android/android-ndk-r21d/sources/cxx-stl/llvm-libc++/include/iosfwd \
@@ -36,10 +36,10 @@
   /Users/hungly/Library/Android/android-ndk-r21d/sources/cxx-stl/llvm-libc++/include/climits \
   /Users/hungly/Library/Android/android-ndk-r21d/sources/cxx-stl/llvm-libc++/include/limits.h \
   /Users/hungly/Library/Android/android-ndk-r21d/sources/cxx-stl/llvm-libc++/include/__split_buffer \
-  jni/oboe/src/flowgraph/FlowGraphNode.h \
+  /Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/src/flowgraph/FlowGraphNode.h \
   /Users/hungly/Library/Android/android-ndk-r21d/sources/cxx-stl/llvm-libc++/include/math.h
 
-jni/oboe/src/flowgraph/ManyToMultiConverter.h:
+/Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/src/flowgraph/ManyToMultiConverter.h:
 
 /Users/hungly/Library/Android/android-ndk-r21d/sources/cxx-stl/llvm-libc++/include/vector:
 
@@ -111,6 +111,6 @@ jni/oboe/src/flowgraph/ManyToMultiConverter.h:
 
 /Users/hungly/Library/Android/android-ndk-r21d/sources/cxx-stl/llvm-libc++/include/__split_buffer:
 
-jni/oboe/src/flowgraph/FlowGraphNode.h:
+/Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/src/flowgraph/FlowGraphNode.h:
 
 /Users/hungly/Library/Android/android-ndk-r21d/sources/cxx-stl/llvm-libc++/include/math.h:

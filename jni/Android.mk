@@ -19,9 +19,10 @@ $(OPENSLES_FILE_LIST:$(LOCAL_PATH)/%=%)
 LOCAL_LDLIBS:= -llog -lOpenSLES -laaudio
 include $(BUILD_SHARED_LIBRARY)
 
-# Test binary
-include $(CLEAR_VARS) # Clear all the variables with a prefix "LOCAL_"
-#LOCAL_SHARED_LIBRARIES:= ../libs/x86/liboboe.so
-LOCAL_SRC_FILES:=hello.cpp # Indicate the source code.
-LOCAL_MODULE:= hello # The name of the binary.
-include $(BUILD_EXECUTABLE) # Tell ndk-build that we want to build a native executable.
+# # Test binary
+# include $(CLEAR_VARS) # Clear all the variables with a prefix "LOCAL_"
+# #LOCAL_SHARED_LIBRARIES:= ../libs/x86/liboboe.so
+# LOCAL_SRC_FILES:=hello.cpp $(LOCAL_PATH)/../libs/x86/liboboe.so # Indicate the source code.
+# LOCAL_EXPORT_C_INCLUDES := $(LOCAL_OBOE_PATH)/include $(LOCAL_OBOE_PATH)/src
+# LOCAL_MODULE:= hello # The name of the binary.
+# include $(BUILD_EXECUTABLE) # Tell ndk-build that we want to build a native executable.

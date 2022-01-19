@@ -1,5 +1,6 @@
-./obj/local/x86/objs-debug/oboe/oboe/src/flowgraph/SourceFloat.o: \
-  jni/oboe/src/flowgraph/SourceFloat.cpp jni/oboe/src/common/OboeDebug.h \
+/Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/obj/local/x86/objs-debug/oboe/oboe/src/flowgraph/SourceFloat.o: \
+  /Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/src/flowgraph/SourceFloat.cpp \
+  /Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/src/common/OboeDebug.h \
   /Users/hungly/Library/Android/android-ndk-r21d/sources/cxx-stl/llvm-libc++/include/algorithm \
   /Users/hungly/Library/Android/android-ndk-r21d/sources/cxx-stl/llvm-libc++/include/__config \
   /Users/hungly/Library/Android/android-ndk-r21d/sources/cxx-stl/llvm-libc++/include/initializer_list \
@@ -30,16 +31,16 @@
   /Users/hungly/Library/Android/android-ndk-r21d/sources/cxx-stl/llvm-libc++/include/atomic \
   /Users/hungly/Library/Android/android-ndk-r21d/sources/cxx-stl/llvm-libc++/include/functional \
   /Users/hungly/Library/Android/android-ndk-r21d/sources/cxx-stl/llvm-libc++/include/bit \
-  jni/oboe/src/flowgraph/FlowGraphNode.h \
+  /Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/src/flowgraph/FlowGraphNode.h \
   /Users/hungly/Library/Android/android-ndk-r21d/sources/cxx-stl/llvm-libc++/include/math.h \
   /Users/hungly/Library/Android/android-ndk-r21d/sources/cxx-stl/llvm-libc++/include/vector \
   /Users/hungly/Library/Android/android-ndk-r21d/sources/cxx-stl/llvm-libc++/include/__bit_reference \
   /Users/hungly/Library/Android/android-ndk-r21d/sources/cxx-stl/llvm-libc++/include/climits \
   /Users/hungly/Library/Android/android-ndk-r21d/sources/cxx-stl/llvm-libc++/include/limits.h \
   /Users/hungly/Library/Android/android-ndk-r21d/sources/cxx-stl/llvm-libc++/include/__split_buffer \
-  jni/oboe/src/flowgraph/SourceFloat.h
+  /Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/src/flowgraph/SourceFloat.h
 
-jni/oboe/src/common/OboeDebug.h:
+/Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/src/common/OboeDebug.h:
 
 /Users/hungly/Library/Android/android-ndk-r21d/sources/cxx-stl/llvm-libc++/include/algorithm:
 
@@ -101,7 +102,7 @@ jni/oboe/src/common/OboeDebug.h:
 
 /Users/hungly/Library/Android/android-ndk-r21d/sources/cxx-stl/llvm-libc++/include/bit:
 
-jni/oboe/src/flowgraph/FlowGraphNode.h:
+/Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/src/flowgraph/FlowGraphNode.h:
 
 /Users/hungly/Library/Android/android-ndk-r21d/sources/cxx-stl/llvm-libc++/include/math.h:
 
@@ -115,4 +116,4 @@ jni/oboe/src/flowgraph/FlowGraphNode.h:
 
 /Users/hungly/Library/Android/android-ndk-r21d/sources/cxx-stl/llvm-libc++/include/__split_buffer:
 
-jni/oboe/src/flowgraph/SourceFloat.h:
+/Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/src/flowgraph/SourceFloat.h:

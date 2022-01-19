@@ -1,5 +1,5 @@
-./obj/local/x86/objs-debug/oboe/oboe/src/common/FilterAudioStream.o: \
-  jni/oboe/src/common/FilterAudioStream.cpp \
+/Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/obj/local/x86/objs-debug/oboe/oboe/src/common/FilterAudioStream.o: \
+  /Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/src/common/FilterAudioStream.cpp \
   /Users/hungly/Library/Android/android-ndk-r21d/sources/cxx-stl/llvm-libc++/include/memory \
   /Users/hungly/Library/Android/android-ndk-r21d/sources/cxx-stl/llvm-libc++/include/__config \
   /Users/hungly/Library/Android/android-ndk-r21d/sources/cxx-stl/llvm-libc++/include/type_traits \
@@ -27,9 +27,9 @@
   /Users/hungly/Library/Android/android-ndk-r21d/sources/cxx-stl/llvm-libc++/include/stdexcept \
   /Users/hungly/Library/Android/android-ndk-r21d/sources/cxx-stl/llvm-libc++/include/cassert \
   /Users/hungly/Library/Android/android-ndk-r21d/sources/cxx-stl/llvm-libc++/include/atomic \
-  jni/oboe/src/common/OboeDebug.h \
-  jni/oboe/src/common/FilterAudioStream.h \
-  jni/oboe/include/oboe/AudioStream.h \
+  /Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/src/common/OboeDebug.h \
+  /Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/src/common/FilterAudioStream.h \
+  /Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/include/oboe/AudioStream.h \
   /Users/hungly/Library/Android/android-ndk-r21d/sources/cxx-stl/llvm-libc++/include/ctime \
   /Users/hungly/Library/Android/android-ndk-r21d/sources/cxx-stl/llvm-libc++/include/mutex \
   /Users/hungly/Library/Android/android-ndk-r21d/sources/cxx-stl/llvm-libc++/include/__mutex_base \
@@ -55,8 +55,8 @@
   /Users/hungly/Library/Android/android-ndk-r21d/sources/cxx-stl/llvm-libc++/include/ctype.h \
   /Users/hungly/Library/Android/android-ndk-r21d/sources/cxx-stl/llvm-libc++/include/wctype.h \
   /Users/hungly/Library/Android/android-ndk-r21d/sources/cxx-stl/llvm-libc++/include/__threading_support \
-  jni/oboe/include/oboe/Definitions.h \
-  jni/oboe/include/oboe/ResultWithValue.h \
+  /Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/include/oboe/Definitions.h \
+  /Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/include/oboe/ResultWithValue.h \
   /Users/hungly/Library/Android/android-ndk-r21d/sources/cxx-stl/llvm-libc++/include/iostream \
   /Users/hungly/Library/Android/android-ndk-r21d/sources/cxx-stl/llvm-libc++/include/ios \
   /Users/hungly/Library/Android/android-ndk-r21d/sources/cxx-stl/llvm-libc++/include/__locale \
@@ -72,29 +72,31 @@
   /Users/hungly/Library/Android/android-ndk-r21d/sources/cxx-stl/llvm-libc++/include/bitset \
   /Users/hungly/Library/Android/android-ndk-r21d/sources/cxx-stl/llvm-libc++/include/__bit_reference \
   /Users/hungly/Library/Android/android-ndk-r21d/sources/cxx-stl/llvm-libc++/include/sstream \
-  jni/oboe/include/oboe/AudioStreamBuilder.h \
-  jni/oboe/include/oboe/AudioStreamBase.h \
-  jni/oboe/include/oboe/AudioStreamCallback.h \
-  jni/oboe/src/common/DataConversionFlowGraph.h \
-  jni/oboe/src/flowgraph/ChannelCountConverter.h \
-  jni/oboe/src/flowgraph/FlowGraphNode.h \
+  /Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/include/oboe/AudioStreamBuilder.h \
+  /Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/include/oboe/AudioStreamBase.h \
+  /Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/include/oboe/AudioStreamCallback.h \
+  /Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/src/common/DataConversionFlowGraph.h \
+  /Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/src/flowgraph/ChannelCountConverter.h \
+  /Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/src/flowgraph/FlowGraphNode.h \
   /Users/hungly/Library/Android/android-ndk-r21d/sources/cxx-stl/llvm-libc++/include/math.h \
   /Users/hungly/Library/Android/android-ndk-r21d/sources/cxx-stl/llvm-libc++/include/vector \
   /Users/hungly/Library/Android/android-ndk-r21d/sources/cxx-stl/llvm-libc++/include/__split_buffer \
-  jni/oboe/src/flowgraph/MonoToMultiConverter.h \
-  jni/oboe/src/flowgraph/MultiToMonoConverter.h \
-  jni/oboe/src/flowgraph/SampleRateConverter.h \
-  jni/oboe/src/flowgraph/resampler/MultiChannelResampler.h \
-  jni/oboe/src/flowgraph/resampler/HyperbolicCosineWindow.h \
-  jni/oboe/src/common/AudioSourceCaller.h jni/oboe/include/oboe/Oboe.h \
-  jni/oboe/include/oboe/LatencyTuner.h jni/oboe/include/oboe/Utilities.h \
-  jni/oboe/include/oboe/Version.h \
-  jni/oboe/include/oboe/StabilizedCallback.h \
-  jni/oboe/include/oboe/FifoBuffer.h \
-  jni/oboe/include/oboe/FifoControllerBase.h \
-  jni/oboe/src/common/FixedBlockReader.h \
-  jni/oboe/src/common/FixedBlockAdapter.h \
-  jni/oboe/src/common/FixedBlockWriter.h
+  /Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/src/flowgraph/MonoToMultiConverter.h \
+  /Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/src/flowgraph/MultiToMonoConverter.h \
+  /Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/src/flowgraph/SampleRateConverter.h \
+  /Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/src/flowgraph/resampler/MultiChannelResampler.h \
+  /Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/src/flowgraph/resampler/HyperbolicCosineWindow.h \
+  /Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/src/common/AudioSourceCaller.h \
+  /Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/include/oboe/Oboe.h \
+  /Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/include/oboe/LatencyTuner.h \
+  /Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/include/oboe/Utilities.h \
+  /Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/include/oboe/Version.h \
+  /Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/include/oboe/StabilizedCallback.h \
+  /Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/include/oboe/FifoBuffer.h \
+  /Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/include/oboe/FifoControllerBase.h \
+  /Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/src/common/FixedBlockReader.h \
+  /Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/src/common/FixedBlockAdapter.h \
+  /Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/src/common/FixedBlockWriter.h
 
 /Users/hungly/Library/Android/android-ndk-r21d/sources/cxx-stl/llvm-libc++/include/memory:
 
@@ -150,11 +152,11 @@
 
 /Users/hungly/Library/Android/android-ndk-r21d/sources/cxx-stl/llvm-libc++/include/atomic:
 
-jni/oboe/src/common/OboeDebug.h:
+/Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/src/common/OboeDebug.h:
 
-jni/oboe/src/common/FilterAudioStream.h:
+/Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/src/common/FilterAudioStream.h:
 
-jni/oboe/include/oboe/AudioStream.h:
+/Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/include/oboe/AudioStream.h:
 
 /Users/hungly/Library/Android/android-ndk-r21d/sources/cxx-stl/llvm-libc++/include/ctime:
 
@@ -206,9 +208,9 @@ jni/oboe/include/oboe/AudioStream.h:
 
 /Users/hungly/Library/Android/android-ndk-r21d/sources/cxx-stl/llvm-libc++/include/__threading_support:
 
-jni/oboe/include/oboe/Definitions.h:
+/Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/include/oboe/Definitions.h:
 
-jni/oboe/include/oboe/ResultWithValue.h:
+/Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/include/oboe/ResultWithValue.h:
 
 /Users/hungly/Library/Android/android-ndk-r21d/sources/cxx-stl/llvm-libc++/include/iostream:
 
@@ -240,17 +242,17 @@ jni/oboe/include/oboe/ResultWithValue.h:
 
 /Users/hungly/Library/Android/android-ndk-r21d/sources/cxx-stl/llvm-libc++/include/sstream:
 
-jni/oboe/include/oboe/AudioStreamBuilder.h:
+/Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/include/oboe/AudioStreamBuilder.h:
 
-jni/oboe/include/oboe/AudioStreamBase.h:
+/Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/include/oboe/AudioStreamBase.h:
 
-jni/oboe/include/oboe/AudioStreamCallback.h:
+/Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/include/oboe/AudioStreamCallback.h:
 
-jni/oboe/src/common/DataConversionFlowGraph.h:
+/Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/src/common/DataConversionFlowGraph.h:
 
-jni/oboe/src/flowgraph/ChannelCountConverter.h:
+/Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/src/flowgraph/ChannelCountConverter.h:
 
-jni/oboe/src/flowgraph/FlowGraphNode.h:
+/Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/src/flowgraph/FlowGraphNode.h:
 
 /Users/hungly/Library/Android/android-ndk-r21d/sources/cxx-stl/llvm-libc++/include/math.h:
 
@@ -258,34 +260,34 @@ jni/oboe/src/flowgraph/FlowGraphNode.h:
 
 /Users/hungly/Library/Android/android-ndk-r21d/sources/cxx-stl/llvm-libc++/include/__split_buffer:
 
-jni/oboe/src/flowgraph/MonoToMultiConverter.h:
+/Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/src/flowgraph/MonoToMultiConverter.h:
 
-jni/oboe/src/flowgraph/MultiToMonoConverter.h:
+/Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/src/flowgraph/MultiToMonoConverter.h:
 
-jni/oboe/src/flowgraph/SampleRateConverter.h:
+/Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/src/flowgraph/SampleRateConverter.h:
 
-jni/oboe/src/flowgraph/resampler/MultiChannelResampler.h:
+/Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/src/flowgraph/resampler/MultiChannelResampler.h:
 
-jni/oboe/src/flowgraph/resampler/HyperbolicCosineWindow.h:
+/Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/src/flowgraph/resampler/HyperbolicCosineWindow.h:
 
-jni/oboe/src/common/AudioSourceCaller.h:
+/Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/src/common/AudioSourceCaller.h:
 
-jni/oboe/include/oboe/Oboe.h:
+/Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/include/oboe/Oboe.h:
 
-jni/oboe/include/oboe/LatencyTuner.h:
+/Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/include/oboe/LatencyTuner.h:
 
-jni/oboe/include/oboe/Utilities.h:
+/Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/include/oboe/Utilities.h:
 
-jni/oboe/include/oboe/Version.h:
+/Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/include/oboe/Version.h:
 
-jni/oboe/include/oboe/StabilizedCallback.h:
+/Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/include/oboe/StabilizedCallback.h:
 
-jni/oboe/include/oboe/FifoBuffer.h:
+/Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/include/oboe/FifoBuffer.h:
 
-jni/oboe/include/oboe/FifoControllerBase.h:
+/Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/include/oboe/FifoControllerBase.h:
 
-jni/oboe/src/common/FixedBlockReader.h:
+/Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/src/common/FixedBlockReader.h:
 
-jni/oboe/src/common/FixedBlockAdapter.h:
+/Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/src/common/FixedBlockAdapter.h:
 
-jni/oboe/src/common/FixedBlockWriter.h:
+/Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/src/common/FixedBlockWriter.h:

@@ -1,5 +1,5 @@
-./obj/local/x86/objs-debug/oboe/oboe/src/common/Utilities.o: \
-  jni/oboe/src/common/Utilities.cpp \
+/Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/obj/local/x86/objs-debug/oboe/oboe/src/common/Utilities.o: \
+  /Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/src/common/Utilities.cpp \
   /Users/hungly/Library/Android/android-ndk-r21d/sources/cxx-stl/llvm-libc++/include/stdlib.h \
   /Users/hungly/Library/Android/android-ndk-r21d/sources/cxx-stl/llvm-libc++/include/__config \
   /Users/hungly/Library/Android/android-ndk-r21d/sources/cxx-stl/llvm-libc++/include/sstream \
@@ -66,14 +66,14 @@
   /Users/hungly/Library/Android/android-ndk-r21d/sources/cxx-stl/llvm-libc++/include/bitset \
   /Users/hungly/Library/Android/android-ndk-r21d/sources/cxx-stl/llvm-libc++/include/__bit_reference \
   /Users/hungly/Library/Android/android-ndk-r21d/sources/cxx-stl/llvm-libc++/include/istream \
-  jni/oboe/include/oboe/AudioStream.h \
-  jni/oboe/include/oboe/Definitions.h \
-  jni/oboe/include/oboe/ResultWithValue.h \
+  /Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/include/oboe/AudioStream.h \
+  /Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/include/oboe/Definitions.h \
+  /Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/include/oboe/ResultWithValue.h \
   /Users/hungly/Library/Android/android-ndk-r21d/sources/cxx-stl/llvm-libc++/include/iostream \
-  jni/oboe/include/oboe/AudioStreamBuilder.h \
-  jni/oboe/include/oboe/AudioStreamBase.h \
-  jni/oboe/include/oboe/AudioStreamCallback.h \
-  jni/oboe/include/oboe/Utilities.h
+  /Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/include/oboe/AudioStreamBuilder.h \
+  /Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/include/oboe/AudioStreamBase.h \
+  /Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/include/oboe/AudioStreamCallback.h \
+  /Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/include/oboe/Utilities.h
 
 /Users/hungly/Library/Android/android-ndk-r21d/sources/cxx-stl/llvm-libc++/include/stdlib.h:
 
@@ -207,18 +207,18 @@
 
 /Users/hungly/Library/Android/android-ndk-r21d/sources/cxx-stl/llvm-libc++/include/istream:
 
-jni/oboe/include/oboe/AudioStream.h:
+/Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/include/oboe/AudioStream.h:
 
-jni/oboe/include/oboe/Definitions.h:
+/Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/include/oboe/Definitions.h:
 
-jni/oboe/include/oboe/ResultWithValue.h:
+/Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/include/oboe/ResultWithValue.h:
 
 /Users/hungly/Library/Android/android-ndk-r21d/sources/cxx-stl/llvm-libc++/include/iostream:
 
-jni/oboe/include/oboe/AudioStreamBuilder.h:
+/Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/include/oboe/AudioStreamBuilder.h:
 
-jni/oboe/include/oboe/AudioStreamBase.h:
+/Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/include/oboe/AudioStreamBase.h:
 
-jni/oboe/include/oboe/AudioStreamCallback.h:
+/Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/include/oboe/AudioStreamCallback.h:
 
-jni/oboe/include/oboe/Utilities.h:
+/Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/include/oboe/Utilities.h:

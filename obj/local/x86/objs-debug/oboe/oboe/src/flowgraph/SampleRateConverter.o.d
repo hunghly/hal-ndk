@@ -1,7 +1,7 @@
-./obj/local/x86/objs-debug/oboe/oboe/src/flowgraph/SampleRateConverter.o: \
-  jni/oboe/src/flowgraph/SampleRateConverter.cpp \
-  jni/oboe/src/flowgraph/SampleRateConverter.h \
-  jni/oboe/src/flowgraph/FlowGraphNode.h \
+/Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/obj/local/x86/objs-debug/oboe/oboe/src/flowgraph/SampleRateConverter.o: \
+  /Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/src/flowgraph/SampleRateConverter.cpp \
+  /Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/src/flowgraph/SampleRateConverter.h \
+  /Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/src/flowgraph/FlowGraphNode.h \
   /Users/hungly/Library/Android/android-ndk-r21d/sources/cxx-stl/llvm-libc++/include/cassert \
   /Users/hungly/Library/Android/android-ndk-r21d/sources/cxx-stl/llvm-libc++/include/__config \
   /Users/hungly/Library/Android/android-ndk-r21d/sources/cxx-stl/llvm-libc++/include/cstring \
@@ -38,12 +38,12 @@
   /Users/hungly/Library/Android/android-ndk-r21d/sources/cxx-stl/llvm-libc++/include/climits \
   /Users/hungly/Library/Android/android-ndk-r21d/sources/cxx-stl/llvm-libc++/include/limits.h \
   /Users/hungly/Library/Android/android-ndk-r21d/sources/cxx-stl/llvm-libc++/include/__split_buffer \
-  jni/oboe/src/flowgraph/resampler/MultiChannelResampler.h \
-  jni/oboe/src/flowgraph/resampler/HyperbolicCosineWindow.h
+  /Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/src/flowgraph/resampler/MultiChannelResampler.h \
+  /Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/src/flowgraph/resampler/HyperbolicCosineWindow.h
 
-jni/oboe/src/flowgraph/SampleRateConverter.h:
+/Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/src/flowgraph/SampleRateConverter.h:
 
-jni/oboe/src/flowgraph/FlowGraphNode.h:
+/Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/src/flowgraph/FlowGraphNode.h:
 
 /Users/hungly/Library/Android/android-ndk-r21d/sources/cxx-stl/llvm-libc++/include/cassert:
 
@@ -117,6 +117,6 @@ jni/oboe/src/flowgraph/FlowGraphNode.h:
 
 /Users/hungly/Library/Android/android-ndk-r21d/sources/cxx-stl/llvm-libc++/include/__split_buffer:
 
-jni/oboe/src/flowgraph/resampler/MultiChannelResampler.h:
+/Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/src/flowgraph/resampler/MultiChannelResampler.h:
 
-jni/oboe/src/flowgraph/resampler/HyperbolicCosineWindow.h:
+/Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/src/flowgraph/resampler/HyperbolicCosineWindow.h:

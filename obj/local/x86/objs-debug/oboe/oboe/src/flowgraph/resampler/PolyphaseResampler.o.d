@@ -1,10 +1,10 @@
-./obj/local/x86/objs-debug/oboe/oboe/src/flowgraph/resampler/PolyphaseResampler.o: \
-  jni/oboe/src/flowgraph/resampler/PolyphaseResampler.cpp \
+/Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/obj/local/x86/objs-debug/oboe/oboe/src/flowgraph/resampler/PolyphaseResampler.o: \
+  /Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/src/flowgraph/resampler/PolyphaseResampler.cpp \
   /Users/hungly/Library/Android/android-ndk-r21d/sources/cxx-stl/llvm-libc++/include/cassert \
   /Users/hungly/Library/Android/android-ndk-r21d/sources/cxx-stl/llvm-libc++/include/__config \
   /Users/hungly/Library/Android/android-ndk-r21d/sources/cxx-stl/llvm-libc++/include/math.h \
-  jni/oboe/src/flowgraph/resampler/IntegerRatio.h \
-  jni/oboe/src/flowgraph/resampler/PolyphaseResampler.h \
+  /Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/src/flowgraph/resampler/IntegerRatio.h \
+  /Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/src/flowgraph/resampler/PolyphaseResampler.h \
   /Users/hungly/Library/Android/android-ndk-r21d/sources/cxx-stl/llvm-libc++/include/memory \
   /Users/hungly/Library/Android/android-ndk-r21d/sources/cxx-stl/llvm-libc++/include/type_traits \
   /Users/hungly/Library/Android/android-ndk-r21d/sources/cxx-stl/llvm-libc++/include/typeinfo \
@@ -38,8 +38,8 @@
   /Users/hungly/Library/Android/android-ndk-r21d/sources/cxx-stl/llvm-libc++/include/climits \
   /Users/hungly/Library/Android/android-ndk-r21d/sources/cxx-stl/llvm-libc++/include/limits.h \
   /Users/hungly/Library/Android/android-ndk-r21d/sources/cxx-stl/llvm-libc++/include/__split_buffer \
-  jni/oboe/src/flowgraph/resampler/MultiChannelResampler.h \
-  jni/oboe/src/flowgraph/resampler/HyperbolicCosineWindow.h
+  /Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/src/flowgraph/resampler/MultiChannelResampler.h \
+  /Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/src/flowgraph/resampler/HyperbolicCosineWindow.h
 
 /Users/hungly/Library/Android/android-ndk-r21d/sources/cxx-stl/llvm-libc++/include/cassert:
 
@@ -47,9 +47,9 @@
 
 /Users/hungly/Library/Android/android-ndk-r21d/sources/cxx-stl/llvm-libc++/include/math.h:
 
-jni/oboe/src/flowgraph/resampler/IntegerRatio.h:
+/Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/src/flowgraph/resampler/IntegerRatio.h:
 
-jni/oboe/src/flowgraph/resampler/PolyphaseResampler.h:
+/Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/src/flowgraph/resampler/PolyphaseResampler.h:
 
 /Users/hungly/Library/Android/android-ndk-r21d/sources/cxx-stl/llvm-libc++/include/memory:
 
@@ -117,6 +117,6 @@ jni/oboe/src/flowgraph/resampler/PolyphaseResampler.h:
 
 /Users/hungly/Library/Android/android-ndk-r21d/sources/cxx-stl/llvm-libc++/include/__split_buffer:
 
-jni/oboe/src/flowgraph/resampler/MultiChannelResampler.h:
+/Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/src/flowgraph/resampler/MultiChannelResampler.h:
 
-jni/oboe/src/flowgraph/resampler/HyperbolicCosineWindow.h:
+/Users/hungly/VisualStudioCodeProjects/TestOboe-NDK/jni/oboe/src/flowgraph/resampler/HyperbolicCosineWindow.h:
