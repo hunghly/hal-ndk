@@ -1,0 +1,3 @@
+[submodule "jni/oboe"]
+	path = jni/oboe
+	url = https://github.com/google/oboe
