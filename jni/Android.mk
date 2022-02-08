@@ -1,23 +1,24 @@
-# Oboe Shared Library
 LOCAL_PATH:= $(call my-dir) # Get the local path of the project.
-include $(CLEAR_VARS) # Clear all the variables with a prefix "LOCAL_"
-LOCAL_MODULE:= oboe
-LOCAL_OBOE_PATH:= $(LOCAL_PATH)/oboe
-LOCAL_C_INCLUDES:=$(LOCAL_OBOE_PATH)/include $(LOCAL_OBOE_PATH)/src
-AAUDIO_FILE_LIST := $(wildcard $(LOCAL_PATH)/oboe/src/aaudio/*.cpp)
-COMMON_FILE_LIST := $(wildcard $(LOCAL_PATH)/oboe/src/common/*.cpp)
-FIFO_FILE_LIST := $(wildcard $(LOCAL_PATH)/oboe/src/fifo/*.cpp)
-RESAMPLER_FILE_LIST := $(wildcard $(LOCAL_PATH)/oboe/src/flowgraph/resampler/*.cpp)
-FLOWGRAPH_FILE_LIST := $(wildcard $(LOCAL_PATH)/oboe/src/flowgraph/*.cpp)
-OPENSLES_FILE_LIST := $(wildcard $(LOCAL_PATH)/oboe/src/opensles/*.cpp)
-LOCAL_SRC_FILES := $(AAUDIO_FILE_LIST:$(LOCAL_PATH)/%=%) \
-$(COMMON_FILE_LIST:$(LOCAL_PATH)/%=%) \
-$(FIFO_FILE_LIST:$(LOCAL_PATH)/%=%) \
-$(RESAMPLER_FILE_LIST:$(LOCAL_PATH)/%=%) \
-$(FLOWGRAPH_FILE_LIST:$(LOCAL_PATH)/%=%) \
-$(OPENSLES_FILE_LIST:$(LOCAL_PATH)/%=%)
-LOCAL_LDLIBS:= -llog -lOpenSLES -laaudio
-include $(BUILD_SHARED_LIBRARY)
+
+LOCAL_MODULE := cutils
+LOCAL_SRC_FILES := libcutils.so
+LOCAL_EXPORT_C_INCLUDES := ./include/
+include $(PREBUILT_SHARED_LIBRARY)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE := lhw
+LOCAL_SRC_FILES := libhardware.so
+LOCAL_SHARED_LIBRARIES := cutils
+LOCAL_EXPORT_C_INCLUDES := ./include/libhardware
+include $(PREBUILT_SHARED_LIBRARY)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE:= test-hal
+# LOCAL_C_INCLUDES:= $(LOCAL_PATH)/../include
+LOCAL_SRC_FILES:= hello.cpp
+LOCAL_SHARED_LIBRARIES := lhw cutils
+LOCAL_LDLIBS:= -llog
+include $(BUILD_EXECUTABLE)
 
 # # Test binary
 # include $(CLEAR_VARS) # Clear all the variables with a prefix "LOCAL_"
