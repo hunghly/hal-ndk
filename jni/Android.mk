@@ -1,22 +1,22 @@
 LOCAL_PATH:= $(call my-dir) # Get the local path of the project.
 
-LOCAL_MODULE := cutils
-LOCAL_SRC_FILES := libcutils.so
-LOCAL_EXPORT_C_INCLUDES := ./include/
-include $(PREBUILT_SHARED_LIBRARY)
+# LOCAL_MODULE := cutils
+# LOCAL_SRC_FILES := libcutils.so
+# LOCAL_EXPORT_C_INCLUDES := ./include/
+# include $(PREBUILT_SHARED_LIBRARY)
+
+# include $(CLEAR_VARS)
+# LOCAL_MODULE := lhw
+# LOCAL_SRC_FILES := libhardware.so
+# LOCAL_SHARED_LIBRARIES := cutils
+# LOCAL_EXPORT_C_INCLUDES := ./include/libhardware
+# include $(PREBUILT_SHARED_LIBRARY)
 
 include $(CLEAR_VARS)
-LOCAL_MODULE := lhw
-LOCAL_SRC_FILES := libhardware.so
-LOCAL_SHARED_LIBRARIES := cutils
-LOCAL_EXPORT_C_INCLUDES := ./include/libhardware
-include $(PREBUILT_SHARED_LIBRARY)
-
-include $(CLEAR_VARS)
-LOCAL_MODULE:= test-hal
-# LOCAL_C_INCLUDES:= $(LOCAL_PATH)/../include
-LOCAL_SRC_FILES:= hello.cpp
-LOCAL_SHARED_LIBRARIES := lhw cutils
+LOCAL_MODULE:= hal-ndk
+LOCAL_C_INCLUDES:= $(LOCAL_PATH)/../include
+LOCAL_SRC_FILES:= hal-ndk.cpp
+# LOCAL_SHARED_LIBRARIES := lhw cutils
 LOCAL_LDLIBS:= -llog
 include $(BUILD_EXECUTABLE)
 
