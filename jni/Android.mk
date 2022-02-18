@@ -18,6 +18,7 @@ LOCAL_C_INCLUDES:= $(LOCAL_PATH)/../include
 LOCAL_SRC_FILES:= hal-ndk.cpp
 # LOCAL_SHARED_LIBRARIES := lhw cutils
 LOCAL_LDLIBS:= -llog
+LOCAL_LDFLAGS:= -Wl,-rpath,/system/lib64/,--enable-new-dtags # might not be needed
 include $(BUILD_EXECUTABLE)
 
 # # Test binary
