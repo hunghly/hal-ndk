@@ -17,11 +17,11 @@
 #ifndef ANDROID_INCLUDE_HARDWARE_HARDWARE_H
 #define ANDROID_INCLUDE_HARDWARE_HARDWARE_H
 
-#include <stdint.h>
-#include <sys/cdefs.h>
+// #include <stdint.h>
+// #include <sys/cdefs.h>
 
-#include <cutils/native_handle.h>
-#include <system/graphics.h>
+// #include <cutils/native_handle.h>
+// #include <system/graphics.h>
 
 __BEGIN_DECLS
 
