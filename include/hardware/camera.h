@@ -22,10 +22,7 @@
 /**
  * Camera device HAL, initial version [ CAMERA_DEVICE_API_VERSION_1_0 ]
  *
- * DEPRECATED. New devices should use Camera HAL v3.2 or newer.
- *
- * Supports the android.hardware.Camera API, and the android.hardware.camera2
- * API in legacy mode only.
+ * Supports the android.hardware.Camera API.
  *
  * Camera devices that support this version of the HAL must return a value in
  * the range HARDWARE_DEVICE_API_VERSION(0,0)-(1,FF) in

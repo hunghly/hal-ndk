@@ -158,8 +158,8 @@ enum {
      *
      * When any camera method returns error, the client can use ping command
      * to see if the camera has been taken away by other clients. If the result
-     * is OK, it means the camera hardware is not released. If the result
-     * is not OK, the camera has been released and the existing client
+     * is NO_ERROR, it means the camera hardware is not released. If the result
+     * is not NO_ERROR, the camera has been released and the existing client
      * can silently finish itself or show a dialog.
      */
     CAMERA_CMD_PING = 9,
@@ -174,22 +174,6 @@ enum {
      * count is non-positive or too big to be realized.
      */
     CAMERA_CMD_SET_VIDEO_BUFFER_COUNT = 10,
-
-    /**
-     * Configure an explicit format to use for video recording metadata mode.
-     * This can be used to switch the format from the
-     * default IMPLEMENTATION_DEFINED gralloc format to some other
-     * device-supported format, and the default dataspace from the BT_709 color
-     * space to some other device-supported dataspace. arg1 is the HAL pixel
-     * format, and arg2 is the HAL dataSpace. This command returns
-     * INVALID_OPERATION error if it is sent after video recording is started,
-     * or the command is not supported at all.
-     *
-     * If the gralloc format is set to a format other than
-     * IMPLEMENTATION_DEFINED, then HALv3 devices will use gralloc usage flags
-     * of SW_READ_OFTEN.
-     */
-    CAMERA_CMD_SET_VIDEO_FORMAT = 11
 };
 
 /** camera fatal errors */
@@ -203,15 +187,6 @@ enum {
      * (except disconnect and sending CAMERA_CMD_PING) after getting this.
      */
     CAMERA_ERROR_RELEASED = 2,
-
-    /**
-     * Camera was released because device policy change or the client application
-     * is going to background. The client should call Camera::disconnect
-     * immediately after getting this notification. Otherwise, the camera will be
-     * released by camera service in a short time. The client should not call any
-     * method (except disconnect and sending CAMERA_CMD_PING) after getting this.
-     */
-    CAMERA_ERROR_DISABLED = 3,
     CAMERA_ERROR_SERVER_DIED = 100
 };
 
@@ -219,12 +194,7 @@ enum {
     /** The facing of the camera is opposite to that of the screen. */
     CAMERA_FACING_BACK = 0,
     /** The facing of the camera is the same as that of the screen. */
-    CAMERA_FACING_FRONT = 1,
-    /**
-     * The facing of the camera is not fixed relative to the screen.
-     * The cameras with this facing are external cameras, e.g. USB cameras.
-     */
-    CAMERA_FACING_EXTERNAL = 2
+    CAMERA_FACING_FRONT = 1
 };
 
 enum {

@@ -1,12 +1,13 @@
 #include <iostream>
 #include <hardware/hardware.h>
+#include <hardware/audio.h>
 #include "hal-ndk.h"
 #include <dlfcn.h>
 
 int main()
 {
     const hw_module_t* MODULE;
-    const char* module_id = "gps";
+    const char* module_id = "audio";
 
     load_hw(module_id,&MODULE);
     return 0;
@@ -31,14 +32,14 @@ int load_hw(const char* module_id, const struct hw_module_t** hw_module) {
     }
 
     std::cout << "Libhardware loaded. Gathering HW_GET_MODULE Function." << std::endl;
-    hw_get_module_t hw_get_module = (hw_get_module_t) dlsym(lib_hardware, HW_GET_MODULE);
+    // hw_get_module_t hw_get_module = (hw_get_module_t) dlsym(lib_hardware, HW_GET_MODULE);
 
-    std::cout << "Printing hw_get_module: " << hw_get_module << std::endl;
-    if (!hw_get_module) {
-        std::cout << "Error getting funcs" << std::endl;
-        dlclose(lib_hardware);
-        return 1;
-    }
+    // std::cout << "Printing hw_get_module: " << hw_get_module << std::endl;
+    // if (!hw_get_module) {
+    //     std::cout << "Error getting funcs" << std::endl;
+    //     dlclose(lib_hardware);
+    //     return 1;
+    // }
 
     std::cout << "Functions gathered. Gathering module " << module_id << std::endl;
 

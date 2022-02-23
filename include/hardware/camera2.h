@@ -21,37 +21,23 @@
 #include "system/camera_metadata.h"
 
 /**
- * Camera device HAL 2.1 [ CAMERA_DEVICE_API_VERSION_2_0, CAMERA_DEVICE_API_VERSION_2_1 ]
+ * Camera device HAL 2.0 [ CAMERA_DEVICE_API_VERSION_2_0 ]
  *
- * NO LONGER SUPPORTED.  The camera service will no longer load HAL modules that
- * contain HAL v2.0 or v2.1 devices.
+ * EXPERIMENTAL.
  *
- * New devices should use Camera HAL v3.2 or newer.
- *
- * Supports the android.hardware.Camera API, and the android.hardware.camera2
- * API in legacy mode only.
+ * Supports both the android.hardware.ProCamera and
+ * android.hardware.Camera APIs.
  *
  * Camera devices that support this version of the HAL must return
- * CAMERA_DEVICE_API_VERSION_2_1 in camera_device_t.common.version and in
+ * CAMERA_DEVICE_API_VERSION_2_0 in camera_device_t.common.version and in
  * camera_info_t.device_version (from camera_module_t.get_camera_info).
  *
- * Camera modules that may contain version 2.x devices must implement at least
+ * Camera modules that may contain version 2.0 devices must implement at least
  * version 2.0 of the camera module interface (as defined by
  * camera_module_t.common.module_api_version).
  *
  * See camera_common.h for more versioning details.
  *
- * Version history:
- *
- * 2.0: CAMERA_DEVICE_API_VERSION_2_0. Initial release (Android 4.2):
- *      - Sufficient for implementing existing android.hardware.Camera API.
- *      - Allows for ZSL queue in camera service layer
- *      - Not tested for any new features such manual capture control,
- *        Bayer RAW capture, reprocessing of RAW data.
- *
- * 2.1: CAMERA_DEVICE_API_VERSION_2_1. Support per-device static metadata:
- *      - Add get_instance_metadata() method to retrieve metadata that is fixed
- *        after device open, but may be variable between open() calls.
  */
 
 __BEGIN_DECLS
@@ -146,7 +132,7 @@ enum {
 typedef struct camera2_jpeg_blob {
     uint16_t jpeg_blob_id;
     uint32_t jpeg_size;
-} camera2_jpeg_blob_t;
+};
 
 enum {
     CAMERA2_JPEG_BLOB_ID = 0x00FF
@@ -799,26 +785,6 @@ typedef struct camera2_device_ops {
      * Dump state of the camera hardware
      */
     int (*dump)(const struct camera2_device *, int fd);
-
-    /**
-     * Get device-instance-specific metadata. This metadata must be constant for
-     * a single instance of the camera device, but may be different between
-     * open() calls. The returned camera_metadata pointer must be valid until
-     * the device close() method is called.
-     *
-     * Version information:
-     *
-     * CAMERA_DEVICE_API_VERSION_2_0:
-     *
-     *   Not available. Framework may not access this function pointer.
-     *
-     * CAMERA_DEVICE_API_VERSION_2_1:
-     *
-     *   Valid. Can be called by the framework.
-     *
-     */
-    int (*get_instance_metadata)(const struct camera2_device *,
-            camera_metadata **instance_metadata);
 
 } camera2_device_ops_t;
 

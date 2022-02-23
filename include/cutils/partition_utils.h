@@ -17,11 +17,10 @@
 #ifndef __CUTILS_PARTITION_WIPED_H__
 #define __CUTILS_PARTITION_WIPED_H__
 
-#include <sys/cdefs.h>
-
 __BEGIN_DECLS
 
-int partition_wiped(const char* source);
+int partition_wiped(char *source);
+void erase_footer(const char *dev_path, long long size);
 
 __END_DECLS
 

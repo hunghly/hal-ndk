@@ -36,12 +36,6 @@ __BEGIN_DECLS
 /*****************************************************************************/
 
 typedef struct framebuffer_device_t {
-    /**
-     * Common methods of the framebuffer device.  This *must* be the first member of
-     * framebuffer_device_t as users of this structure will cast a hw_device_t to
-     * framebuffer_device_t pointer in contexts where it's known the hw_device_t references a
-     * framebuffer_device_t.
-     */
     struct hw_device_t common;
 
     /* flags describing some attributes of the framebuffer */
@@ -160,7 +154,7 @@ typedef struct framebuffer_device_t {
 static inline int framebuffer_open(const struct hw_module_t* module,
         struct framebuffer_device_t** device) {
     return module->methods->open(module,
-            GRALLOC_HARDWARE_FB0, TO_HW_DEVICE_T_OPEN(device));
+            GRALLOC_HARDWARE_FB0, (struct hw_device_t**)device);
 }
 
 static inline int framebuffer_close(struct framebuffer_device_t* device) {

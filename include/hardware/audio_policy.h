@@ -133,22 +133,21 @@ struct audio_policy {
                                     uint32_t samplingRate,
                                     audio_format_t format,
                                     audio_channel_mask_t channelMask,
-                                    audio_output_flags_t flags,
-                                    const audio_offload_info_t *offloadInfo);
+                                    audio_output_flags_t flags);
 
     /* indicates to the audio policy manager that the output starts being used
      * by corresponding stream. */
     int (*start_output)(struct audio_policy *pol,
                         audio_io_handle_t output,
                         audio_stream_type_t stream,
-                        audio_session_t session);
+                        int session);
 
     /* indicates to the audio policy manager that the output stops being used
      * by corresponding stream. */
     int (*stop_output)(struct audio_policy *pol,
                        audio_io_handle_t output,
                        audio_stream_type_t stream,
-                       audio_session_t session);
+                       int session);
 
     /* releases the output. */
     void (*release_output)(struct audio_policy *pol, audio_io_handle_t output);
@@ -222,7 +221,7 @@ struct audio_policy {
                            const struct effect_descriptor_s *desc,
                            audio_io_handle_t output,
                            uint32_t strategy,
-                           audio_session_t session,
+                           int session,
                            int id);
 
     int (*unregister_effect)(struct audio_policy *pol, int id);
@@ -230,24 +229,19 @@ struct audio_policy {
     int (*set_effect_enabled)(struct audio_policy *pol, int id, bool enabled);
 
     bool (*is_stream_active)(const struct audio_policy *pol,
-            audio_stream_type_t stream,
-            uint32_t in_past_ms);
-
-    bool (*is_stream_active_remotely)(const struct audio_policy *pol,
-            audio_stream_type_t stream,
-            uint32_t in_past_ms);
+                             audio_stream_type_t stream,
+                             uint32_t in_past_ms);
 
     bool (*is_source_active)(const struct audio_policy *pol,
-            audio_source_t source);
+                             audio_source_t source);
 
     /* dump state */
     int (*dump)(const struct audio_policy *pol, int fd);
-
-    /* check if offload is possible for given sample rate, bitrate, duration, ... */
-    bool (*is_offload_supported)(const struct audio_policy *pol,
-                                const audio_offload_info_t *info);
 };
 
+/* audio hw module handle used by load_hw_module(), open_output_on_module()
+ * and open_input_on_module() */
+typedef int audio_module_handle_t;
 
 struct audio_policy_service_ops {
     /*
@@ -329,9 +323,10 @@ struct audio_policy_service_ops {
                              audio_io_handle_t output,
                              int delay_ms);
 
-    /* invalidate a stream type, causing a reroute to an unspecified new output */
-    int (*invalidate_stream)(void *service,
-                             audio_stream_type_t stream);
+    /* reroute a given stream type to the specified output */
+    int (*set_stream_output)(void *service,
+                             audio_stream_type_t stream,
+                             audio_io_handle_t output);
 
     /* function enabling to send proprietary informations directly from audio
      * policy manager to audio hardware interface. */
@@ -367,7 +362,7 @@ struct audio_policy_service_ops {
 
     /* move effect to the specified output */
     int (*move_effects)(void *service,
-                        audio_session_t session,
+                        int session,
                         audio_io_handle_t src_output,
                         audio_io_handle_t dst_output);
 
@@ -391,8 +386,7 @@ struct audio_policy_service_ops {
                                      audio_format_t *pFormat,
                                      audio_channel_mask_t *pChannelMask,
                                      uint32_t *pLatencyMs,
-                                     audio_output_flags_t flags,
-                                     const audio_offload_info_t *offloadInfo);
+                                     audio_output_flags_t flags);
 
     /* Opens an audio input on a particular HW module.
      *
@@ -420,12 +414,6 @@ typedef struct audio_policy_module {
 } audio_policy_module_t;
 
 struct audio_policy_device {
-    /**
-     * Common methods of the audio policy device.  This *must* be the first member of
-     * audio_policy_device as users of this structure will cast a hw_device_t to
-     * audio_policy_device pointer in contexts where it's known the hw_device_t references an
-     * audio_policy_device.
-     */
     struct hw_device_t common;
 
     int (*create_audio_policy)(const struct audio_policy_device *device,

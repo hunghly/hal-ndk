@@ -23,7 +23,6 @@
 #include <sys/types.h>
 
 #include <hardware/hardware.h>
-#include "nfc-base.h"
 
 __BEGIN_DECLS
 
@@ -54,24 +53,42 @@ __BEGIN_DECLS
  * 9) Core NCI stack calls close()
  */
 #define NFC_NCI_HARDWARE_MODULE_ID "nfc_nci"
-#define NFC_NCI_BCM2079X_HARDWARE_MODULE_ID "nfc_nci.bcm2079x"
 #define NFC_NCI_CONTROLLER "nci"
 
 /*
  *  nfc_nci_module_t should contain module-specific parameters
  */
 typedef struct nfc_nci_module_t {
-    /**
-     * Common methods of the NFC NCI module.  This *must* be the first member of
-     * nfc_nci_module_t as users of this structure will cast a hw_module_t to
-     * nfc_nci_module_t pointer in contexts where it's known the hw_module_t references a
-     * nfc_nci_module_t.
-     */
     struct hw_module_t common;
 } nfc_nci_module_t;
 
+/*
+ * HAL events that can be passed back to the stack
+ */
 typedef uint8_t nfc_event_t;
+
+enum {
+    HAL_NFC_OPEN_CPLT_EVT           = 0x00,
+    HAL_NFC_CLOSE_CPLT_EVT          = 0x01,
+    HAL_NFC_POST_INIT_CPLT_EVT      = 0x02,
+    HAL_NFC_PRE_DISCOVER_CPLT_EVT   = 0x03,
+    HAL_NFC_REQUEST_CONTROL_EVT     = 0x04,
+    HAL_NFC_RELEASE_CONTROL_EVT     = 0x05,
+    HAL_NFC_ERROR_EVT               = 0x06
+};
+
+/*
+ * Allowed status return values for each of the HAL methods
+ */
 typedef uint8_t nfc_status_t;
+
+enum {
+    HAL_NFC_STATUS_OK               = 0x00,
+    HAL_NFC_STATUS_FAILED           = 0x01,
+    HAL_NFC_STATUS_ERR_TRANSPORT    = 0x02,
+    HAL_NFC_STATUS_ERR_CMD_TIMEOUT  = 0x03,
+    HAL_NFC_STATUS_REFUSED          = 0x04
+};
 
 /*
  * The callback passed in from the NFC stack that the HAL
@@ -91,12 +108,6 @@ typedef void (nfc_stack_data_callback_t) (uint16_t data_len, uint8_t* p_data);
  * All methods in the NCI HAL are asynchronous.
  */
 typedef struct nfc_nci_device {
-    /**
-     * Common methods of the NFC NCI device.  This *must* be the first member of
-     * nfc_nci_device_t as users of this structure will cast a hw_device_t to
-     * nfc_nci_device_t pointer in contexts where it's known the hw_device_t references a
-     * nfc_nci_device_t.
-     */
     struct hw_device_t common;
     /*
      * (*open)() Opens the NFC controller device and performs initialization.
@@ -199,12 +210,6 @@ static inline int nfc_nci_close(nfc_nci_device_t* dev) {
 #define NFC_PN544_CONTROLLER "pn544"
 
 typedef struct nfc_module_t {
-    /**
-     * Common methods of the NFC NXP PN544 module.  This *must* be the first member of
-     * nfc_module_t as users of this structure will cast a hw_module_t to
-     * nfc_module_t pointer in contexts where it's known the hw_module_t references a
-     * nfc_module_t.
-     */
     struct hw_module_t common;
 } nfc_module_t;
 
@@ -222,12 +227,6 @@ typedef enum {
 } nfc_pn544_linktype;
 
 typedef struct {
-    /**
-     * Common methods of the NFC NXP PN544 device.  This *must* be the first member of
-     * nfc_pn544_device_t as users of this structure will cast a hw_device_t to
-     * nfc_pn544_device_t pointer in contexts where it's known the hw_device_t references a
-     * nfc_pn544_device_t.
-     */
     struct hw_device_t common;
 
     /* The number of EEPROM registers to write */

@@ -17,31 +17,9 @@
 #ifndef SYSTEM_CORE_INCLUDE_ANDROID_GRAPHICS_H
 #define SYSTEM_CORE_INCLUDE_ANDROID_GRAPHICS_H
 
-#include <stddef.h>
-#include <stdint.h>
-
-/*
- * Some of the enums are now defined in HIDL in hardware/interfaces and are
- * generated.
- */
-#include "graphics-base.h"
-#include "graphics-sw.h"
-
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-/* for compatibility */
-#define HAL_PIXEL_FORMAT_YCbCr_420_888 HAL_PIXEL_FORMAT_YCBCR_420_888
-#define HAL_PIXEL_FORMAT_YCbCr_422_SP HAL_PIXEL_FORMAT_YCBCR_422_SP
-#define HAL_PIXEL_FORMAT_YCrCb_420_SP HAL_PIXEL_FORMAT_YCRCB_420_SP
-#define HAL_PIXEL_FORMAT_YCbCr_422_I HAL_PIXEL_FORMAT_YCBCR_422_I
-typedef android_pixel_format_t android_pixel_format;
-typedef android_transform_t android_transform;
-typedef android_dataspace_t android_dataspace;
-typedef android_color_mode_t android_color_mode;
-typedef android_color_transform_t android_color_transform;
-typedef android_hdr_t android_hdr;
 
 /*
  * If the HAL needs to create service threads to handle graphics related
@@ -57,208 +35,137 @@ typedef android_hdr_t android_hdr;
 
 #define HAL_PRIORITY_URGENT_DISPLAY     (-8)
 
-/*
- * Structure for describing YCbCr formats for consumption by applications.
- * This is used with HAL_PIXEL_FORMAT_YCbCr_*_888.
- *
- * Buffer chroma subsampling is defined in the format.
- * e.g. HAL_PIXEL_FORMAT_YCbCr_420_888 has subsampling 4:2:0.
- *
- * Buffers must have a 8 bit depth.
- *
- * y, cb, and cr point to the first byte of their respective planes.
- *
- * Stride describes the distance in bytes from the first value of one row of
- * the image to the first value of the next row.  It includes the width of the
- * image plus padding.
- * ystride is the stride of the luma plane.
- * cstride is the stride of the chroma planes.
- *
- * chroma_step is the distance in bytes from one chroma pixel value to the
- * next.  This is 2 bytes for semiplanar (because chroma values are interleaved
- * and each chroma value is one byte) and 1 for planar.
+/**
+ * pixel format definitions
  */
 
-struct android_ycbcr {
-    void *y;
-    void *cb;
-    void *cr;
-    size_t ystride;
-    size_t cstride;
-    size_t chroma_step;
+enum {
+    HAL_PIXEL_FORMAT_RGBA_8888          = 1,
+    HAL_PIXEL_FORMAT_RGBX_8888          = 2,
+    HAL_PIXEL_FORMAT_RGB_888            = 3,
+    HAL_PIXEL_FORMAT_RGB_565            = 4,
+    HAL_PIXEL_FORMAT_BGRA_8888          = 5,
+    HAL_PIXEL_FORMAT_RGBA_5551          = 6,
+    HAL_PIXEL_FORMAT_RGBA_4444          = 7,
 
-    /** reserved for future use, set to 0 by gralloc's (*lock_ycbcr)() */
-    uint32_t reserved[8];
+    /* 0x8 - 0xFF range unavailable */
+
+    /*
+     * 0x100 - 0x1FF
+     *
+     * This range is reserved for pixel formats that are specific to the HAL
+     * implementation.  Implementations can use any value in this range to
+     * communicate video pixel formats between their HAL modules.  These formats
+     * must not have an alpha channel.  Additionally, an EGLimage created from a
+     * gralloc buffer of one of these formats must be supported for use with the
+     * GL_OES_EGL_image_external OpenGL ES extension.
+     */
+
+    /*
+     * Android YUV format:
+     *
+     * This format is exposed outside of the HAL to software decoders and
+     * applications.  EGLImageKHR must support it in conjunction with the
+     * OES_EGL_image_external extension.
+     *
+     * YV12 is a 4:2:0 YCrCb planar format comprised of a WxH Y plane followed
+     * by (W/2) x (H/2) Cr and Cb planes.
+     *
+     * This format assumes
+     * - an even width
+     * - an even height
+     * - a horizontal stride multiple of 16 pixels
+     * - a vertical stride equal to the height
+     *
+     *   y_size = stride * height
+     *   c_stride = ALIGN(stride/2, 16)
+     *   c_size = c_stride * height/2
+     *   size = y_size + c_size * 2
+     *   cr_offset = y_size
+     *   cb_offset = y_size + c_size
+     *
+     */
+    HAL_PIXEL_FORMAT_YV12   = 0x32315659, // YCrCb 4:2:0 Planar
+
+    /*
+     * Android RAW sensor format:
+     *
+     * This format is exposed outside of the HAL to applications.
+     *
+     * RAW_SENSOR is a single-channel 16-bit format, typically representing raw
+     * Bayer-pattern images from an image sensor, with minimal processing.
+     *
+     * The exact pixel layout of the data in the buffer is sensor-dependent, and
+     * needs to be queried from the camera device.
+     *
+     * Generally, not all 16 bits are used; more common values are 10 or 12
+     * bits. All parameters to interpret the raw data (black and white points,
+     * color space, etc) must be queried from the camera device.
+     *
+     * This format assumes
+     * - an even width
+     * - an even height
+     * - a horizontal stride multiple of 16 pixels (32 bytes).
+     */
+    HAL_PIXEL_FORMAT_RAW_SENSOR = 0x20,
+
+    /*
+     * Android binary blob graphics buffer format:
+     *
+     * This format is used to carry task-specific data which does not have a
+     * standard image structure. The details of the format are left to the two
+     * endpoints.
+     *
+     * A typical use case is for transporting JPEG-compressed images from the
+     * Camera HAL to the framework or to applications.
+     *
+     * Buffers of this format must have a height of 1, and width equal to their
+     * size in bytes.
+     */
+    HAL_PIXEL_FORMAT_BLOB = 0x21,
+
+    /*
+     * Android format indicating that the choice of format is entirely up to the
+     * device-specific Gralloc implementation.
+     *
+     * The Gralloc implementation should examine the usage bits passed in when
+     * allocating a buffer with this format, and it should derive the pixel
+     * format from those usage flags.  This format will never be used with any
+     * of the GRALLOC_USAGE_SW_* usage flags.
+     *
+     * If a buffer of this format is to be used as an OpenGL ES texture, the
+     * framework will assume that sampling the texture will always return an
+     * alpha value of 1.0 (i.e. the buffer contains only opaque pixel values).
+     *
+     */
+    HAL_PIXEL_FORMAT_IMPLEMENTATION_DEFINED = 0x22,
+
+    /* Legacy formats (deprecated), used by ImageFormat.java */
+    HAL_PIXEL_FORMAT_YCbCr_422_SP       = 0x10, // NV16
+    HAL_PIXEL_FORMAT_YCrCb_420_SP       = 0x11, // NV21
+    HAL_PIXEL_FORMAT_YCbCr_422_I        = 0x14, // YUY2
 };
 
-/*
- * Structures for describing flexible YUVA/RGBA formats for consumption by
- * applications. Such flexible formats contain a plane for each component (e.g.
- * red, green, blue), where each plane is laid out in a grid-like pattern
- * occupying unique byte addresses and with consistent byte offsets between
- * neighboring pixels.
- *
- * The android_flex_layout structure is used with any pixel format that can be
- * represented by it, such as:
- *  - HAL_PIXEL_FORMAT_YCbCr_*_888
- *  - HAL_PIXEL_FORMAT_FLEX_RGB*_888
- *  - HAL_PIXEL_FORMAT_RGB[AX]_888[8],BGRA_8888,RGB_888
- *  - HAL_PIXEL_FORMAT_YV12,Y8,Y16,YCbCr_422_SP/I,YCrCb_420_SP
- *  - even implementation defined formats that can be represented by
- *    the structures
- *
- * Vertical increment (aka. row increment or stride) describes the distance in
- * bytes from the first pixel of one row to the first pixel of the next row
- * (below) for the component plane. This can be negative.
- *
- * Horizontal increment (aka. column or pixel increment) describes the distance
- * in bytes from one pixel to the next pixel (to the right) on the same row for
- * the component plane. This can be negative.
- *
- * Each plane can be subsampled either vertically or horizontally by
- * a power-of-two factor.
- *
- * The bit-depth of each component can be arbitrary, as long as the pixels are
- * laid out on whole bytes, in native byte-order, using the most significant
- * bits of each unit.
- */
-
-typedef enum android_flex_component {
-    /* luma */
-    FLEX_COMPONENT_Y = 1 << 0,
-    /* chroma blue */
-    FLEX_COMPONENT_Cb = 1 << 1,
-    /* chroma red */
-    FLEX_COMPONENT_Cr = 1 << 2,
-
-    /* red */
-    FLEX_COMPONENT_R = 1 << 10,
-    /* green */
-    FLEX_COMPONENT_G = 1 << 11,
-    /* blue */
-    FLEX_COMPONENT_B = 1 << 12,
-
-    /* alpha */
-    FLEX_COMPONENT_A = 1 << 30,
-} android_flex_component_t;
-
-typedef struct android_flex_plane {
-    /* pointer to the first byte of the top-left pixel of the plane. */
-    uint8_t *top_left;
-
-    android_flex_component_t component;
-
-    /* bits allocated for the component in each pixel. Must be a positive
-       multiple of 8. */
-    int32_t bits_per_component;
-    /* number of the most significant bits used in the format for this
-       component. Must be between 1 and bits_per_component, inclusive. */
-    int32_t bits_used;
-
-    /* horizontal increment */
-    int32_t h_increment;
-    /* vertical increment */
-    int32_t v_increment;
-    /* horizontal subsampling. Must be a positive power of 2. */
-    int32_t h_subsampling;
-    /* vertical subsampling. Must be a positive power of 2. */
-    int32_t v_subsampling;
-} android_flex_plane_t;
-
-typedef enum android_flex_format {
-    /* not a flexible format */
-    FLEX_FORMAT_INVALID = 0x0,
-    FLEX_FORMAT_Y = FLEX_COMPONENT_Y,
-    FLEX_FORMAT_YCbCr = FLEX_COMPONENT_Y | FLEX_COMPONENT_Cb | FLEX_COMPONENT_Cr,
-    FLEX_FORMAT_YCbCrA = FLEX_FORMAT_YCbCr | FLEX_COMPONENT_A,
-    FLEX_FORMAT_RGB = FLEX_COMPONENT_R | FLEX_COMPONENT_G | FLEX_COMPONENT_B,
-    FLEX_FORMAT_RGBA = FLEX_FORMAT_RGB | FLEX_COMPONENT_A,
-} android_flex_format_t;
-
-typedef struct android_flex_layout {
-    /* the kind of flexible format */
-    android_flex_format_t format;
-
-    /* number of planes; 0 for FLEX_FORMAT_INVALID */
-    uint32_t num_planes;
-    /* a plane for each component; ordered in increasing component value order.
-       E.g. FLEX_FORMAT_RGBA maps 0 -> R, 1 -> G, etc.
-       Can be NULL for FLEX_FORMAT_INVALID */
-    android_flex_plane_t *planes;
-} android_flex_layout_t;
 
 /**
- * Structure used to define depth point clouds for format HAL_PIXEL_FORMAT_BLOB
- * with dataSpace value of HAL_DATASPACE_DEPTH.
- * When locking a native buffer of the above format and dataSpace value,
- * the vaddr pointer can be cast to this structure.
+ * Transformation definitions
  *
- * A variable-length list of (x,y,z, confidence) 3D points, as floats.  (x, y,
- * z) represents a measured point's position, with the coordinate system defined
- * by the data source.  Confidence represents the estimated likelihood that this
- * measurement is correct. It is between 0.f and 1.f, inclusive, with 1.f ==
- * 100% confidence.
+ * IMPORTANT NOTE:
+ * HAL_TRANSFORM_ROT_90 is applied CLOCKWISE and AFTER HAL_TRANSFORM_FLIP_{H|V}.
  *
- * num_points is the number of points in the list
- *
- * xyz_points is the flexible array of floating-point values.
- *   It contains (num_points) * 4 floats.
- *
- *   For example:
- *     android_depth_points d = get_depth_buffer();
- *     struct {
- *       float x; float y; float z; float confidence;
- *     } firstPoint, lastPoint;
- *
- *     firstPoint.x = d.xyzc_points[0];
- *     firstPoint.y = d.xyzc_points[1];
- *     firstPoint.z = d.xyzc_points[2];
- *     firstPoint.confidence = d.xyzc_points[3];
- *     lastPoint.x = d.xyzc_points[(d.num_points - 1) * 4 + 0];
- *     lastPoint.y = d.xyzc_points[(d.num_points - 1) * 4 + 1];
- *     lastPoint.z = d.xyzc_points[(d.num_points - 1) * 4 + 2];
- *     lastPoint.confidence = d.xyzc_points[(d.num_points - 1) * 4 + 3];
  */
 
-struct android_depth_points {
-    uint32_t num_points;
-
-    /** reserved for future use, set to 0 by gralloc's (*lock)() */
-    uint32_t reserved[8];
-
-#if defined(__clang__)
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wc99-extensions"
-#endif
-    float xyzc_points[];
-#if defined(__clang__)
-#pragma clang diagnostic pop
-#endif
-};
-
-/**
-  * These structures are used to define the reference display's
-  * capabilities for HDR content. Display engine can use this
-  * to better tone map content to user's display.
-  * Color is defined in CIE XYZ coordinates
-  */
-struct android_xy_color {
-    float x;
-    float y;
-};
-
-struct android_smpte2086_metadata {
-    struct android_xy_color displayPrimaryRed;
-    struct android_xy_color displayPrimaryGreen;
-    struct android_xy_color displayPrimaryBlue;
-    struct android_xy_color whitePoint;
-    float maxLuminance;
-    float minLuminance;
-};
-
-struct android_cta861_3_metadata {
-    float maxContentLightLevel;
-    float maxFrameAverageLightLevel;
+enum {
+    /* flip source image horizontally (around the vertical axis) */
+    HAL_TRANSFORM_FLIP_H    = 0x01,
+    /* flip source image vertically (around the horizontal axis)*/
+    HAL_TRANSFORM_FLIP_V    = 0x02,
+    /* rotate source image 90 degrees clockwise */
+    HAL_TRANSFORM_ROT_90    = 0x04,
+    /* rotate source image 180 degrees */
+    HAL_TRANSFORM_ROT_180   = 0x03,
+    /* rotate source image 270 degrees clockwise */
+    HAL_TRANSFORM_ROT_270   = 0x07,
 };
 
 #ifdef __cplusplus
