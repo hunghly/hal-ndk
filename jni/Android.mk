@@ -16,9 +16,9 @@ include $(CLEAR_VARS)
 LOCAL_MODULE:= hal-ndk
 LOCAL_C_INCLUDES:= $(LOCAL_PATH)/../include
 LOCAL_SRC_FILES:= hal-ndk.cpp
-# LOCAL_SHARED_LIBRARIES := lhw cutils
+# LOCAL_SHARED_LIBRARIES := 
 LOCAL_LDLIBS:= -llog
-LOCAL_LDFLAGS:= -Wl,-rpath,/system/lib64/,--enable-new-dtags # might not be needed
+LOCAL_LDFLAGS:= -Wl,-rpath,/system/lib/,--enable-new-dtags # might not be needed
 include $(BUILD_EXECUTABLE)
 
 # # Test binary
