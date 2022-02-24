@@ -20,7 +20,7 @@ int load_hw(const char* module_id, const struct hw_module_t** hw_module) {
     const char* HW_GET_MODULE = "hw_get_module";
 
     // declare ptr to function called hw_get_module with two params
-    typedef int (*hw_get_module_t) (const char*, const struct hw_module_t**); 
+    // typedef int (*hw_get_module_t) (const char*, const struct hw_module_t**); 
 
     void* lib_hardware = dlopen(LIBHARDWARE_DIR, RTLD_NOW);
     void* libaudio = dlopen("/system/lib/hw/audio.primary.default.so", RTLD_GLOBAL);
@@ -41,6 +41,27 @@ int load_hw(const char* module_id, const struct hw_module_t** hw_module) {
     std::cout << "hw_module:" << *hw_module << std::endl;
     std::cout << "hw_module name:" << (*hw_module)->name << std::endl;
     std::cout << "hw_module id:" << (*hw_module)->id << std::endl;
+    std::cout << "hw_module author:" << (*hw_module)->author << std::endl;
+
+    int err;
+    hw_device_t* device;
+    float* vol;
+    err = (*hw_module)->methods->open(*hw_module, AUDIO_HARDWARE_INTERFACE, &device);
+    if (!err) {
+        std::cout << "Assigning audio device" << err << std::endl;
+        audio_hw_device_t* audio_device_itf = (audio_hw_device_t*)device;
+        if (audio_device_itf) {
+            std::cout << "Retrieved audio interface" << std::endl;
+            err = audio_device_itf->init_check(audio_device_itf);
+            std::cout << "Initial Check Error? " << err << std::endl;
+            err = audio_device_itf->init_check(audio_device_itf);
+            // err = audio_device_itf->get_master_volume(audio_device_itf, vol);
+            // std::cout << "Getting Audio Volume Error? " << err << std::endl;
+            // std::cout << "Audio Volume" << vol << std::endl;
+        }
+    } else {
+        std::cout << "Error while opening module" << err << std::endl;
+    }
     
     // std::cout << "Status:" << status << std::endl;
 
