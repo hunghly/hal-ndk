@@ -1,6 +1,7 @@
 #include <iostream>
 #include <hardware/hardware.h>
 #include <hardware/audio.h>
+// #include <system/audio.h>
 #include "hal-ndk.h"
 #include <dlfcn.h>
 
@@ -16,7 +17,7 @@ int main()
 int load_hw(const char* module_id, const struct hw_module_t** hw_module) {
 
     std::cout << "Attempting to load libhardware" << std::endl;
-    const char* LIBHARDWARE_DIR = "/system/lib/libhardware.so\0";
+    // const char* LIBHARDWARE_DIR = "/system/lib/libhardware.so\0";
     const char* HW_GET_MODULE = "hw_get_module";
 
     // declare ptr to function called hw_get_module with two params
@@ -83,18 +84,34 @@ int load_hw(const char* module_id, const struct hw_module_t** hw_module) {
         // dlclose(lib_hardware);
         return 1;
     }
-    audio_hw_device_t* audio_device_itf = (audio_hw_device_t*)device;
+    std::cout << "Device opened. Checking initiation." << std::endl;
 
-    status = audio_device_itf->init_check(audio_device_itf);
+    audio_hw_device_t* audio_device_itf = (audio_hw_device_t*)device;
+    if (audio_device_itf) {
+            status = audio_device_itf->init_check(audio_device_itf);
+            std::cout << "Initial Check Error? " << status << std::endl;
+            // err = audio_device_itf->init_check(audio_device_itf);
+            // err = audio_device_itf->get_master_volume(audio_device_itf, vol);
+            // std::cout << "Getting Audio Volume Error? " << err << std::endl;
+            // std::cout << "Audio Volume" << vol << std::endl;
+    }
+    // int index = 30;
+    // audio_device_itf->set_master_volume(audio_device_itf, 50);
+    // status = audio_device_itf->get_stream_volume_index(audio_device_itf,    AUDIO_STREAM_SYSTEM, &index);
     if (status != 0) {
         std::cout << "Audio Interface was not initiated." << status << std::endl;
         return 0;
     }
+    // audio_device_itf->get_devices_for_stream(audio_device_itf, AUDIO_STREAM_SYSTEM);
+
 
     std::cout << "Success: Audio Interface initiated." << std::endl;
-    std::cout << "audio_device_itf:" << audio_device_itf << std::endl;
-    std::cout << "audio_device_itf tag:" << ((hw_device_t*) audio_device_itf)->tag << std::endl;
-    std::cout << "audio_device_itf version:" << ((hw_device_t*) audio_device_itf)->version << std::endl;
+    // std::cout << "audio_device_itf:" << audio_device_itf << std::endl;
+    // std::cout << "audio_device_itf tag:" << ((hw_device_t*) audio_device_itf)->tag << std::endl;
+    // std::cout << "audio_device_itf version:" << ((hw_device_t*) audio_device_itf)->version << std::endl;
+    // std::cout << "audio_device_itf tag2:" << audio_device_itf->common.tag << std::endl;
+    // std::cout << "audio_device_itf version2:" << audio_device_itf->common.version << std::endl;
+    
     // std::cout << "audio_device_itf Module API Version: " << (*audio_device_itf)->module_api_version << std::endl;
     // std::cout << "audio_device_itf HAL API Version: " << (*audio_device_itf)->hal_api_version << std::endl;
     // std::cout << "audio_device_itf id:" << (*audio_device_itf)->id << std::endl;
@@ -105,22 +122,22 @@ int load_hw(const char* module_id, const struct hw_module_t** hw_module) {
     // Try to get the audio supported devices
     std::cout << "Searching for supported devices." << std::endl;
     // int sup_devices = audio_device_itf->get_supported_devices(audio_device_itf);
-    // std::cout << "Support devices int: " << sup_devices << std::endl;
+    // std::cout << "Support devices int: " << std::hex << sup_devices << std::endl;
 
-
-    float myvolume = 0.0;
-    float* vol = &myvolume;
-    bool mystate = true;
+    // float myvolume = 0;
+    // float* vol = &myvolume;
+    // bool mystate = true;
     
     // std::cout << "Initial Error" << status << std::endl;
     // std::cout << "Audio Volume Before myvolume=" << myvolume << " volptr=" << *vol << std::endl;
-    // status = audio_device_itf->get_master_volume(audio_device_itf, vol);
+    // status = audio_device_itf->set_master_volume(audio_device_itf, 0);
     // std::cout << "Getting Audio Volume Error? " << status << std::endl;
     // std::cout << "Audio Volume myvolume=" << myvolume << " volptr=" << *vol << std::endl;
 
 
 
-
+    // status = audio_device_itf->common.close(device);
+    // std::cout << "Error closing? " << status << std::endl;
 
 
 

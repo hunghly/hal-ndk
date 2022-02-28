@@ -30,8 +30,8 @@
 // #include <utils/Log.h>
 
 /** Base path of the hal modules */
-#define HAL_LIBRARY_PATH1 "/system/lib/hw"
-#define HAL_LIBRARY_PATH2 "/vendor/lib/hw"
+#define HAL_LIBRARY_PATH1 "/system/lib64/hw"
+#define HAL_LIBRARY_PATH2 "/vendor/lib64/hw"
 
 /**
  * There are a set of variant filename for modules. The form of the filename
@@ -95,10 +95,10 @@ static int load(const char *id,
 
     printf("Comparing id with hmi->id: %s | %s\n", id, hmi->id);
     /* Check that the id matches */
-    // if (strcmp(id, hmi->id) != 0) {
-    //     status = -EINVAL;
-    //     goto done;
-    // }
+    if (strcmp(id, hmi->id) != 0) {
+        status = -EINVAL;
+        goto done;
+    }
 
     hmi->dso = handle;
 
@@ -140,7 +140,7 @@ int hw_get_module_by_class(const char *class_id, const char *inst,
         strlcpy(name, class_id, PATH_MAX);
 
     printf("Inside of HW Get Module. Name is: %s\n", name);
-    void* lib_cutils = dlopen("/system/lib/libcutils.so", RTLD_GLOBAL);
+    void* lib_cutils = dlopen("/system/lib64/libcutils.so", RTLD_GLOBAL);
     typedef int (*property_get_t) (const char *key, char *value, const char *default_value);
     property_get_t property_get = (property_get_t) dlsym(lib_cutils, "property_get");
 
@@ -187,7 +187,7 @@ int hw_get_module_by_class(const char *class_id, const char *inst,
             }
             // Try with primary added to path
             snprintf(path, sizeof(path), "%s/%s.primary.default.so",
-                     HAL_LIBRARY_PATH1, name);
+                     HAL_LIBRARY_PATH1, name); // need to edit 
             printf("\nDefault Primary Prop is: %s\n", prop);
             printf("Default Primary Path is: %s\n", path);
 
@@ -212,6 +212,7 @@ int hw_get_module_by_class(const char *class_id, const char *inst,
         /* load the module, if this fails, we're doomed, and we should not try
          * to load a different variant. */
         status = load(class_id, path, module);
+        // status = load(class_id, "/system/lib64/hw/audio.a2dp.default.so", module);
         printf("File Found Status at: %s is %d\n", path, status);
     }
 
