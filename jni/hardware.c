@@ -114,7 +114,9 @@ static int load(const char *id,
         }
     } else {
         // ALOGV("loaded HAL id=%s path=%s hmi=%p handle=%p",
-                // id, path, *pHmi, handle);
+        //         id, path, *pHmi, handle);
+        printf("loaded HAL id=%s path=%s hmi=%p handle=%p\n",
+                id, path, *pHmi, handle);
     }
 
     *pHmi = hmi;
@@ -138,6 +140,11 @@ int hw_get_module_by_class(const char *class_id, const char *inst,
         strlcpy(name, class_id, PATH_MAX);
 
     printf("Inside of HW Get Module. Name is: %s\n", name);
+    void* lib_cutils = dlopen("/system/lib/libcutils.so", RTLD_GLOBAL);
+    typedef int (*property_get_t) (const char *key, char *value, const char *default_value);
+    property_get_t property_get = (property_get_t) dlsym(lib_cutils, "property_get");
+
+
     /*
      * Here we rely on the fact that calling dlopen multiple times on
      * the same .so will simply increment a refcount (and not load
@@ -148,26 +155,55 @@ int hw_get_module_by_class(const char *class_id, const char *inst,
     /* Loop through the configuration variants looking for a module */
     for (i=0 ; i<HAL_VARIANT_KEYS_COUNT+1 ; i++) {
         if (i < HAL_VARIANT_KEYS_COUNT) {
-            // if (property_get(variant_keys[i], prop, NULL) == 0) {
-            //     continue;
-            // }
-            snprintf(path, sizeof(path), "%s/%s.%s.so",
-                     HAL_LIBRARY_PATH2, name, prop);
-            printf("Prop is: %s\n", prop);
-            printf("VPath is: %s\n", path);
-            if (access(path, R_OK) == 0) break;
+            if (property_get(variant_keys[i], prop, NULL) == 0) {
+                continue;
+            }
+            printf("Found property! KEY: %s | VALUE: %s\n", variant_keys[i], prop);
 
             snprintf(path, sizeof(path), "%s/%s.%s.so",
+                     HAL_LIBRARY_PATH2, name, prop);
+            printf("VProp is: %s\n", prop);
+            printf("VPath is: %s\n", path);
+            if (access(path, R_OK) == 0) {
+                printf("Found\n");
+                break;
+            }
+            snprintf(path, sizeof(path), "%s/%s.%s.so",
                      HAL_LIBRARY_PATH1, name, prop);
-            printf("Prop is: %s\n", prop);
+            printf("SProp is: %s\n", prop);
             printf("SPath is: %s\n", path);
-            if (access(path, R_OK) == 0) break;
+            if (access(path, R_OK) == 0) {
+                printf("Found\n");
+                break;
+            }
         } else {
             snprintf(path, sizeof(path), "%s/%s.default.so",
                      HAL_LIBRARY_PATH1, name);
-            printf("Prop is: %s\n", prop);
-            printf("SPathNum2 is: %s\n", path);
-            if (access(path, R_OK) == 0) break;
+            printf("\nDefault Prop is: %s\n", prop);
+            printf("Default Path is: %s\n", path);
+            if (access(path, R_OK) == 0) {
+                printf("Found\n");
+                break;
+            }
+            // Try with primary added to path
+            snprintf(path, sizeof(path), "%s/%s.primary.default.so",
+                     HAL_LIBRARY_PATH1, name);
+            printf("\nDefault Primary Prop is: %s\n", prop);
+            printf("Default Primary Path is: %s\n", path);
+
+            if (access(path, R_OK) == 0) {
+                printf("Found\n");
+                break;
+            }
+
+            snprintf(path, sizeof(path), "%s/%s.primary.default.so",
+                    HAL_LIBRARY_PATH2, name);
+            printf("\nDefault Primary VProp is: %s\n", prop);
+            printf("Default Primary VPath is: %s\n", path);
+            if (access(path, R_OK) == 0) {
+                printf("Found\n");
+                break;
+            }
         }
     }
 
