@@ -1,6 +1,8 @@
 #include <iostream>
 #include <hardware/hardware.h>
 #include <hardware/audio.h>
+#include <hardware/audio_policy.h>
+
 #include <system/audio.h>
 #include "hal-ndk.h"
 #include <dlfcn.h>
@@ -9,34 +11,49 @@
 
 int main()
 {
-    const hw_module_t* MODULE;
-    const char* module_id = "audio";
+    const hw_module_t* audio_module;
+    const hw_module_t* audio_policy_module;
+    hw_device_t* audio_device;
+    hw_device_t* audio_policy_device;
+
+    audio_hw_device_t* audio_device_itf;
+    audio_devices_t supported_devices;
+    struct audio_policy_device* audio_policy_device_itf;
+
+    const char* audio_module_id = "audio";
+    const char* audio_policy_module_id = "audio_policy";
+
     int status;
 
-    load_module(module_id,&MODULE);
+    // load audio HAL module
+    load_module(audio_module_id,&audio_module);
+    load_module(audio_policy_module_id,&audio_policy_module);
 
 
-    hw_device_t* device;    
-    status = MODULE->methods->open(MODULE, AUDIO_HARDWARE_INTERFACE, &device);
+    status = audio_policy_module->methods->open(audio_policy_module, AUDIO_POLICY_INTERFACE, &audio_policy_device);
     if (status != 0) {
-        std::cout << "Error opening interface" << std::endl;
-        // dlclose(lib_hardware);
-        return 0;
+        std::cout << "Error opening audio policy device" << std::endl;
+        return -1;
     }
+    audio_policy_device_itf = (struct audio_policy_device*) audio_policy_device;
+
+
+    // =============================== Audio module testing below ==============================
+
+
+    status = audio_module->methods->open(audio_module, AUDIO_HARDWARE_INTERFACE, &audio_device);
+    if (status != 0) {
+        std::cout << "Error opening audio device" << std::endl;
+        return -1;
+    }
+    // assign audio device interface
+    audio_device_itf = (audio_hw_device_t*)audio_device;
     std::cout << "Device opened. Checking initiation." << std::endl;
-
-    audio_hw_device_t* audio_device_itf = (audio_hw_device_t*)device;
-
-    if (audio_device_itf) {
-        status = audio_device_itf->init_check(audio_device_itf);
-        if (status != 0) {
-            std::cout << "Audio Interface was not initiated." << status << std::endl;
-            return 0;
-        } else {
-            std::cout << "Success: Audio Interface initiated." << std::endl;
-        }
+    status = audio_device_itf->init_check(audio_device_itf);
+    if (status != 0) {
+        std::cout << "Error Audio Interface was not initiated." << status << std::endl;
+        return -1;
     }
-
 
     // Try to get the audio supported devices
     /* Example: 3222405119 converts to:
@@ -45,16 +62,12 @@ int main()
         Use check_bit() to see if a particular device is supported.
         For example, AUDIO_DEVICE_OUT_BLUETOOTH_SCO is 0x10 i.e. 5th bit
     */
-    audio_devices_t supported_devices = audio_device_itf->get_supported_devices(audio_device_itf);
+    supported_devices = audio_device_itf->get_supported_devices(audio_device_itf);
     if (!supported_devices) {
         std::cout << "Error getting supported devices" << status << std::endl;
         return 0;
     } else {
-        std::cout << "Retrieved supported devices." << supported_devices << std::endl;
-        std::cout << "Support devices" << supported_devices << std::endl;
-        // int n = supported_devices >> 1;
-        // std::cout << "AUDIO_DEVICE_OUT_EARPIECE: " << checkBit(supported_devices, 1) << std::endl;
-        // std::cout << "AUDIO_DEVICE_OUT_BLUETOOTH_A2DP_SPEAKER: " << checkBit(supported_devices, 4) << std::endl;
+        std::cout << "Retrieved supported devices: " << supported_devices << std::endl;
     }
 
     // audio_config
@@ -74,19 +87,19 @@ int main()
 
     std::cout << config.format << std::endl;
 
-    status = audio_device_itf->open_output_stream(audio_device_itf, 1, supported_devices, AUDIO_OUTPUT_FLAG_NONE, &config, out_stream);
-    if (status != 0) {
-        std::cout << "Error opening output stream." << status << std::endl;
-        return 0;
-    } else {
-        std::cout << "Stream opened." << status << std::endl;
-        audio_device_itf->close_output_stream(audio_device_itf, *out_stream);
-        // if (status != 0) {
-        //     std::cout << "Error closing output stream." << status << std::endl;
-        // } else {
-        std::cout << "Output stream closed." << status << std::endl;
-        // }
-    }
+    // status = audio_device_itf->open_output_stream(audio_device_itf, 1, supported_devices, AUDIO_OUTPUT_FLAG_NONE, &config, out_stream);
+    // if (status != 0) {
+    //     std::cout << "Error opening output stream." << status << std::endl;
+    //     return 0;
+    // } else {
+    //     std::cout << "Stream opened." << status << std::endl;
+    //     audio_device_itf->close_output_stream(audio_device_itf, *out_stream);
+    //     // if (status != 0) {
+    //     //     std::cout << "Error closing output stream." << status << std::endl;
+    //     // } else {
+    //     std::cout << "Output stream closed." << status << std::endl;
+    //     // }
+    // }
 
 
     // Try to set mode
@@ -141,7 +154,7 @@ int main()
     // }
 
     // Close the audio device
-    status = audio_device_itf->common.close(device);
+    status = audio_device_itf->common.close(audio_device);
     if (status != 0) {
         std::cout << "Error closing audio device." << status << std::endl;
         return 0;
@@ -182,8 +195,8 @@ int check_bit(uint32_t n, int k) {
 }
 
 void print_module_info(const struct hw_module_t** hw_module) {
-        std::cout << "\nHW_MODULE INFORMATION" << std::endl;
-        std::cout << "----------------------------" << std::endl;
+        std::cout << "\nhw_module_information for " << (*hw_module)->id  << std::endl;
+        std::cout << "===============================" << std::endl;
         std::cout << "hw_module address location:" << *hw_module << std::endl;
         std::cout << "hw_module tag:" << (*hw_module)->tag << std::endl;
         std::cout << "hw_module Module API Version: " << (*hw_module)->module_api_version << std::endl;
@@ -193,6 +206,7 @@ void print_module_info(const struct hw_module_t** hw_module) {
         std::cout << "hw_module author:" << (*hw_module)->author << std::endl;
         std::cout << "hw_module name:" << (*hw_module)->name << std::endl;
         std::cout << "hw_module dso:" << (*hw_module)->dso << std::endl;
+        std::cout << "\n\n" << std::endl;
 }
 
 

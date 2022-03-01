@@ -75,7 +75,7 @@ static int load(const char *id,
      * dlopen returns. Since RTLD_GLOBAL is not or'd in with
      * RTLD_NOW the external symbols will not be global
      */
-    printf("Attempting to load: %s\n", path);
+    // printf("Attempting to load: %s\n", path);
     handle = dlopen(path, RTLD_NOW);
     if (handle == NULL) {
         char const *err_str = dlerror();
@@ -84,10 +84,8 @@ static int load(const char *id,
 
         goto done;
     }
-    printf("Loaded Module. Attempting to get address");
     /* Get the address of the struct hal_module_info. */
     const char *sym = HAL_MODULE_INFO_SYM_AS_STR;
-    printf("Sym is: %s\n", sym);
     hmi = (struct hw_module_t *)dlsym(handle, sym);
     if (hmi == NULL) {
         status = -EINVAL;
@@ -95,7 +93,7 @@ static int load(const char *id,
         goto done;
     }
 
-    printf("Comparing id with hmi->id: %s | %s\n", id, hmi->id);
+    // printf("Comparing id with hmi->id: %s | %s\n", id, hmi->id);
     /* Check that the id matches */
     if (strcmp(id, hmi->id) != 0) {
         status = -EINVAL;
@@ -161,45 +159,60 @@ int hw_get_module_by_class(const char *class_id, const char *inst,
             if (property_get(variant_keys[i], prop, NULL) == 0) {
                 continue;
             }
-            printf("\nFound property with KEY: %s | VALUE: %s\n", variant_keys[i], prop);
-            printf("Checking for shared library file.\n");
+            // printf("\nFound property with KEY: %s | VALUE: %s\n", variant_keys[i], prop);
             snprintf(path, sizeof(path), "%s/%s.%s.so",
                      HAL_LIBRARY_PATH2, name, prop);
-            printf("Vendor Path is: %s\n", path);
+            // printf("Vendor Path is: %s\n", path);
             if (access(path, R_OK) == 0) {
-                printf("Found\n");
+                // printf("Found\n");
                 break;
             }
             snprintf(path, sizeof(path), "%s/%s.%s.so",
                      HAL_LIBRARY_PATH1, name, prop);
-            printf("System Path is: %s\n", path);
+            // printf("System Path is: %s\n", path);
             if (access(path, R_OK) == 0) {
-                printf("Found\n");
+                // printf("Found\n");
+                break;
+            }
+            // Adding primary to path
+            snprintf(path, sizeof(path), "%s/%s.primary.%s.so",
+                     HAL_LIBRARY_PATH2, name, prop);
+            // printf("Vendor Path is: %s\n", path);
+            if (access(path, R_OK) == 0) {
+                // printf("Found\n");
+                break;
+            }
+            snprintf(path, sizeof(path), "%s/%s.primary.%s.so",
+                     HAL_LIBRARY_PATH1, name, prop);
+            // printf("System Path is: %s\n", path);
+            if (access(path, R_OK) == 0) {
+                // printf("Found\n");
                 break;
             }
         } else {
+            // checks for default .so files if specific device manufacturers are not found
             snprintf(path, sizeof(path), "%s/%s.default.so",
                      HAL_LIBRARY_PATH1, name);
-            printf("System Path with default appended is: %s\n", path);
+            // printf("System Path with default appended is: %s\n", path);
             if (access(path, R_OK) == 0) {
-                printf("Found\n");
+                // printf("Found\n");
                 break;
             }
             // Try with primary added to path
             snprintf(path, sizeof(path), "%s/%s.primary.default.so",
                      HAL_LIBRARY_PATH1, name); // need to edit 
-            printf("System Path with default and primary appended is: %s\n", path);
+            // printf("System Path with default and primary appended is: %s\n", path);
 
             if (access(path, R_OK) == 0) {
-                printf("Found\n");
+                // printf("Found\n");
                 break;
             }
 
             snprintf(path, sizeof(path), "%s/%s.primary.default.so",
                     HAL_LIBRARY_PATH2, name);
-            printf("Vendor Path with default and primary appended is: %s\n", path);
+            // printf("Vendor Path with default and primary appended is: %s\n", path);
             if (access(path, R_OK) == 0) {
-                printf("Found\n");
+                // printf("Found\n");
                 break;
             }
         }
@@ -209,9 +222,9 @@ int hw_get_module_by_class(const char *class_id, const char *inst,
     if (i < HAL_VARIANT_KEYS_COUNT+1) {
         /* load the module, if this fails, we're doomed, and we should not try
          * to load a different variant. */
-        // status = load(class_id, path, module);
-        status = load(class_id, "/system/lib/hw/audio.primary.msm8960.so", module);
-        printf("\nFile Found Status at: %s is %d\n", path, status);
+        status = load(class_id, path, module);
+        // status = load(class_id, "/system/lib/hw/audio.primary.msm8960.so", module);
+        printf("\nFile [%s]. Found and Loaded.\n", path);
     }
 
     return status;
