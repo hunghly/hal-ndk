@@ -1,9 +1,11 @@
 #include <iostream>
 #include <hardware/hardware.h>
 #include <hardware/audio.h>
-// #include <system/audio.h>
+#include <system/audio.h>
 #include "hal-ndk.h"
 #include <dlfcn.h>
+#include <ostream>
+
 
 int main()
 {
@@ -74,16 +76,15 @@ int load_hw(const char* module_id, const struct hw_module_t** hw_module) {
     std::cout << "Device opened. Checking initiation." << std::endl;
 
     audio_hw_device_t* audio_device_itf = (audio_hw_device_t*)device;
-    if (audio_device_itf) {
-            status = audio_device_itf->init_check(audio_device_itf);
-            std::cout << "Initial Check Error? " << status << std::endl;
-    }
 
-    if (status != 0) {
-        std::cout << "Audio Interface was not initiated." << status << std::endl;
-        return 0;
-    } else {
-        std::cout << "Success: Audio Interface initiated." << std::endl;
+    if (audio_device_itf) {
+        status = audio_device_itf->init_check(audio_device_itf);
+        if (status != 0) {
+            std::cout << "Audio Interface was not initiated." << status << std::endl;
+            return 0;
+        } else {
+            std::cout << "Success: Audio Interface initiated." << std::endl;
+        }
     }
 
 
@@ -92,18 +93,17 @@ int load_hw(const char* module_id, const struct hw_module_t** hw_module) {
         1100 0000 0001 0001 1111 1111 1111 1111
         All AUDIO_DEVICE_OUT and the default reserved bits
     */
-    // std::cout << "Support devices int: " << std::hex << sup_devices << std::endl;
-    uint32_t supported_devices = audio_device_itf->get_supported_devices((audio_hw_device*) audio_device_itf);
-
-    // if (status != 0) {
-    //     std::cout << "Error getting supported devices" << status << std::endl;
-    //     return 0;
-    // } else {
-    std::cout << "Retrieved supported devices." << supported_devices << std::endl;
-    std::cout << "Support devices" << supported_devices << std::endl;
-
-    // 
-    // }
+    audio_devices_t supported_devices = audio_device_itf->get_supported_devices((audio_hw_device*) audio_device_itf);
+    if (!supported_devices) {
+        std::cout << "Error getting supported devices" << status << std::endl;
+        return 0;
+    } else {
+        std::cout << "Retrieved supported devices." << supported_devices << std::endl;
+        std::cout << "Support devices" << supported_devices << std::endl;
+        // int n = supported_devices >> 1;
+        // std::cout << "AUDIO_DEVICE_OUT_EARPIECE: " << checkBit(supported_devices, 1) << std::endl;
+        // std::cout << "AUDIO_DEVICE_OUT_BLUETOOTH_A2DP_SPEAKER: " << checkBit(supported_devices, 4) << std::endl;
+    }
 
 
     // Try to set mode
@@ -250,4 +250,17 @@ int load_hw(const char* module_id, const struct hw_module_t** hw_module) {
     // dlclose(lib_hardware);
 
     return 0;
+}
+
+/* Checks k-th bit to see if it is set, returns non-zero value if bit is set
+*/
+int checkBit(uint32_t n, int k) {
+    int temp = 1 << (k-1);
+    int set = n & temp;
+    if (set != 0) {
+        std::cout << "Set for K: " << k << std::endl;
+    } else {
+        std::cout << "Unset for K: " << k << std::endl;
+    }
+    return set;
 }
