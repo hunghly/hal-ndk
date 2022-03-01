@@ -11,63 +11,13 @@ int main()
 {
     const hw_module_t* MODULE;
     const char* module_id = "audio";
+    int status;
 
-    load_hw(module_id,&MODULE);
-    return 0;
-}
+    load_module(module_id,&MODULE);
 
-int load_hw(const char* module_id, const struct hw_module_t** hw_module) {
 
-    std::cout << "Attempting to load libhardware" << std::endl;
-    // const char* LIBHARDWARE_DIR = "/system/lib/libhardware.so\0";
-    const char* HW_GET_MODULE = "hw_get_module";
-
-    // declare ptr to function called hw_get_module with two params
-    typedef int (*hw_get_module_t) (const char*, const struct hw_module_t**); 
-
-    // void* lib_hardware = dlopen(LIBHARDWARE_DIR, RTLD_NOW);
-
-    // if (!lib_hardware) {
-    //     std::cout << "Error opening libhardware.so" << std::endl;
-    //     return 1;
-    // }
-
-    // load cutils
-    // void* lib_cutils = dlopen("/system/lib/libcutils.so", RTLD_GLOBAL);
-    // typedef int (*property_get_t) (const char *key, char *value, const char *default_value);
-    // property_get_t property_get = (property_get_t) dlsym(lib_cutils, "property_get");
-
-    // hw_get_module_t hw_get_module = (hw_get_module_t) dlsym(lib_hardware, HW_GET_MODULE);
-    int status = hw_get_module(module_id, hw_module);
-    // std::cout << "Libhardware loaded. Gathering HW_GET_MODULE Function." << std::endl;
-    // hw_get_module_t hw_get_module = (hw_get_module_t) dlsym(lib_hardware, HW_GET_MODULE);
-    // std::cout << "Printing hw_get_module: " << hw_get_module << std::endl;
-    // if (!hw_get_module) {
-    //     std::cout << "Error getting funcs" << std::endl;
-    //     dlclose(lib_hardware);
-    //     return 1;
-    // }
-
-    std::cout << "Status:" << status << std::endl;
-    if (status != 0) {
-        std::cout << "Error getting module" << std::endl;
-        // dlclose(lib_hardware);
-        return 0;
-    } else {
-        std::cout << "\nHW_MODULE INFORMATION" << std::endl;
-        std::cout << "hw_module address location:" << *hw_module << std::endl;
-        std::cout << "hw_module tag:" << (*hw_module)->tag << std::endl;
-        std::cout << "hw_module Module API Version: " << (*hw_module)->module_api_version << std::endl;
-        std::cout << "hw_module HAL API Version: " << (*hw_module)->hal_api_version << std::endl;
-        std::cout << "hw_module id:" << (*hw_module)->id << std::endl;
-        std::cout << "hw_module name:" << (*hw_module)->name << std::endl;
-        std::cout << "hw_module author:" << (*hw_module)->author << std::endl;
-        std::cout << "hw_module name:" << (*hw_module)->name << std::endl;
-        std::cout << "hw_module dso:" << (*hw_module)->dso << std::endl;
-    }
-
-    hw_device_t* device;
-    status = (*hw_module)->methods->open(*hw_module, AUDIO_HARDWARE_INTERFACE, &device);
+    hw_device_t* device;    
+    status = MODULE->methods->open(MODULE, AUDIO_HARDWARE_INTERFACE, &device);
     if (status != 0) {
         std::cout << "Error opening interface" << std::endl;
         // dlclose(lib_hardware);
@@ -92,8 +42,10 @@ int load_hw(const char* module_id, const struct hw_module_t** hw_module) {
     /* Example: 3222405119 converts to:
         1100 0000 0001 0001 1111 1111 1111 1111
         All AUDIO_DEVICE_OUT and the default reserved bits
+        Use check_bit() to see if a particular device is supported.
+        For example, AUDIO_DEVICE_OUT_BLUETOOTH_SCO is 0x10 i.e. 5th bit
     */
-    audio_devices_t supported_devices = audio_device_itf->get_supported_devices((audio_hw_device*) audio_device_itf);
+    audio_devices_t supported_devices = audio_device_itf->get_supported_devices(audio_device_itf);
     if (!supported_devices) {
         std::cout << "Error getting supported devices" << status << std::endl;
         return 0;
@@ -103,6 +55,37 @@ int load_hw(const char* module_id, const struct hw_module_t** hw_module) {
         // int n = supported_devices >> 1;
         // std::cout << "AUDIO_DEVICE_OUT_EARPIECE: " << checkBit(supported_devices, 1) << std::endl;
         // std::cout << "AUDIO_DEVICE_OUT_BLUETOOTH_A2DP_SPEAKER: " << checkBit(supported_devices, 4) << std::endl;
+    }
+
+    // audio_config
+    // struct audio_config {
+    //     uint32_t sample_rate;
+    //     audio_channel_mask_t channel_mask;
+    //     audio_format_t  format;
+    // };
+
+    audio_config_t config {
+        .sample_rate = 10,
+        .channel_mask = AUDIO_CHANNEL_OUT_STEREO,
+        .format = AUDIO_FORMAT_PCM_16_BIT,
+    };
+
+    audio_stream_out_t** out_stream;
+
+    std::cout << config.format << std::endl;
+
+    status = audio_device_itf->open_output_stream(audio_device_itf, 1, supported_devices, AUDIO_OUTPUT_FLAG_NONE, &config, out_stream);
+    if (status != 0) {
+        std::cout << "Error opening output stream." << status << std::endl;
+        return 0;
+    } else {
+        std::cout << "Stream opened." << status << std::endl;
+        audio_device_itf->close_output_stream(audio_device_itf, *out_stream);
+        // if (status != 0) {
+        //     std::cout << "Error closing output stream." << status << std::endl;
+        // } else {
+        std::cout << "Output stream closed." << status << std::endl;
+        // }
     }
 
 
@@ -165,7 +148,90 @@ int load_hw(const char* module_id, const struct hw_module_t** hw_module) {
     } else {
         std::cout << "Audio device closed." << status << std::endl;
     }
-    // audio_device_itf->get_devices_for_stream(audio_device_itf, AUDIO_STREAM_SYSTEM);
+  
+    std::cout << "Complete getting module" << std::endl;
+
+    return 0;
+}
+
+int load_module(const char* module_id, const struct hw_module_t** hw_module) {
+
+
+    int status = hw_get_module(module_id, hw_module);
+
+    if (status != 0) {
+        std::cout << "Error getting module" << std::endl;
+        return -1;
+    }
+
+    print_module_info(&(*hw_module));
+    return 0;
+}
+
+/* Checks k-th bit to see if it is set, returns non-zero value if bit is set
+*/
+int check_bit(uint32_t n, int k) {
+    int temp = 1 << (k-1);
+    int set = n & temp;
+    if (set != 0) {
+        std::cout << "Set for bit at K: " << k << std::endl;
+    } else {
+        std::cout << "Unset for bit at K: " << k << std::endl;
+    }
+    return set;
+}
+
+void print_module_info(const struct hw_module_t** hw_module) {
+        std::cout << "\nHW_MODULE INFORMATION" << std::endl;
+        std::cout << "----------------------------" << std::endl;
+        std::cout << "hw_module address location:" << *hw_module << std::endl;
+        std::cout << "hw_module tag:" << (*hw_module)->tag << std::endl;
+        std::cout << "hw_module Module API Version: " << (*hw_module)->module_api_version << std::endl;
+        std::cout << "hw_module HAL API Version: " << (*hw_module)->hal_api_version << std::endl;
+        std::cout << "hw_module id:" << (*hw_module)->id << std::endl;
+        std::cout << "hw_module name:" << (*hw_module)->name << std::endl;
+        std::cout << "hw_module author:" << (*hw_module)->author << std::endl;
+        std::cout << "hw_module name:" << (*hw_module)->name << std::endl;
+        std::cout << "hw_module dso:" << (*hw_module)->dso << std::endl;
+}
+
+
+
+    // std::cout << "Attempting to load libhardware" << std::endl;
+    // const char* LIBHARDWARE_DIR = "/system/lib/libhardware.so\0";
+    // const char* HW_GET_MODULE = "hw_get_module";
+
+    // declare ptr to function called hw_get_module with two params
+    // typedef int (*hw_get_module_t) (const char*, const struct hw_module_t**); 
+
+    // void* lib_hardware = dlopen(LIBHARDWARE_DIR, RTLD_NOW);
+
+    // if (!lib_hardware) {
+    //     std::cout << "Error opening libhardware.so" << std::endl;
+    //     return 1;
+    // }
+
+    // load cutils
+    // void* lib_cutils = dlopen("/system/lib/libcutils.so", RTLD_GLOBAL);
+    // typedef int (*property_get_t) (const char *key, char *value, const char *default_value);
+    // property_get_t property_get = (property_get_t) dlsym(lib_cutils, "property_get");
+
+    // hw_get_module_t hw_get_module = (hw_get_module_t) dlsym(lib_hardware, HW_GET_MODULE);
+
+
+        // std::cout << "Libhardware loaded. Gathering HW_GET_MODULE Function." << std::endl;
+    // hw_get_module_t hw_get_module = (hw_get_module_t) dlsym(lib_hardware, HW_GET_MODULE);
+    // std::cout << "Printing hw_get_module: " << hw_get_module << std::endl;
+    // if (!hw_get_module) {
+    //     std::cout << "Error getting funcs" << std::endl;
+    //     dlclose(lib_hardware);
+    //     return 1;
+    // }
+
+            // dlclose(lib_hardware);
+
+
+  // audio_device_itf->get_devices_for_stream(audio_device_itf, AUDIO_STREAM_SYSTEM);
 
 
     // std::cout << "audio_device_itf:" << audio_device_itf << std::endl;
@@ -244,23 +310,3 @@ int load_hw(const char* module_id, const struct hw_module_t** hw_module) {
         std::cout << "Error while opening module" << err << std::endl;
     }
 */
-
-    std::cout << "Complete getting module" << std::endl;
-
-    // dlclose(lib_hardware);
-
-    return 0;
-}
-
-/* Checks k-th bit to see if it is set, returns non-zero value if bit is set
-*/
-int checkBit(uint32_t n, int k) {
-    int temp = 1 << (k-1);
-    int set = n & temp;
-    if (set != 0) {
-        std::cout << "Set for K: " << k << std::endl;
-    } else {
-        std::cout << "Unset for K: " << k << std::endl;
-    }
-    return set;
-}
