@@ -76,7 +76,7 @@ static int load(const char *id,
      * RTLD_NOW the external symbols will not be global
      */
     // printf("Attempting to load: %s\n", path);
-    handle = dlopen(path, RTLD_NOW);
+    handle = dlopen(path, RTLD_NOW | RTLD_GLOBAL);
     if (handle == NULL) {
         char const *err_str = dlerror();
         status = -EINVAL;
@@ -140,7 +140,7 @@ int hw_get_module_by_class(const char *class_id, const char *inst,
         strlcpy(name, class_id, PATH_MAX);
 
     // We link cutils property_get so we can call it
-    void* lib_cutils = dlopen("/system/lib/libcutils.so", RTLD_GLOBAL);
+    void* lib_cutils = dlopen("/system/lib/libcutils.so", RTLD_NOW | RTLD_GLOBAL);
     // void* lib_cutils = dlopen("/system/lib64/libcutils.so", RTLD_GLOBAL);
     typedef int (*property_get_t) (const char *key, char *value, const char *default_value);
     property_get_t property_get = (property_get_t) dlsym(lib_cutils, "property_get");

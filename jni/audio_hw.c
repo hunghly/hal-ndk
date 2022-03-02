@@ -320,7 +320,6 @@ static int adev_open(const hw_module_t* module, const char* name,
 {
     struct stub_audio_device *adev;
     int ret;
-    printf("Inside of adev_open");
     if (strcmp(name, AUDIO_HARDWARE_INTERFACE) != 0)
         return -EINVAL;
     adev = calloc(1, sizeof(struct stub_audio_device));

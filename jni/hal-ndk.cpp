@@ -28,6 +28,7 @@ int main()
     // load audio HAL module
     load_module(audio_module_id,&audio_module);
     load_module(audio_policy_module_id,&audio_policy_module);
+    // void* libaudio = dlopen("/system/lib/libaudioflinger.so", RTLD_NOW | RTLD_GLOBAL);
 
 
     status = audio_policy_module->methods->open(audio_policy_module, AUDIO_POLICY_INTERFACE, &audio_policy_device);
@@ -36,6 +37,19 @@ int main()
         return -1;
     }
     audio_policy_device_itf = (struct audio_policy_device*) audio_policy_device;
+    std::cout << "checking if really hw_device_t: " << audio_policy_device->tag << std::endl;
+    std::cout << "checking if really audio_policy_device: " << audio_policy_device_itf->common.tag << std::endl;
+
+    struct audio_policy audio_policy;
+
+
+
+    // close audio policy device
+    status = audio_policy_device_itf->common.close(audio_policy_device);
+    if (status != 0) {
+        std::cout << "Error closing audio policy device" << std::endl;
+        return -1;
+    }
 
 
     // =============================== Audio module testing below ==============================
@@ -116,13 +130,13 @@ int main()
         AUDIO_MODE_MAX              = AUDIO_MODE_CNT - 1,
     } audio_mode_t;
     */
-    // status = audio_device_itf->set_mode(audio_device_itf, (audio_mode_t) 0);
-    // if (status != 0) {
-    //     std::cout << "Error setting mode." << status << std::endl;
-    //     return 0;
-    // } else {
-    //     std::cout << "Mode updated." << status << std::endl;
-    // }
+    status = audio_device_itf->set_mode(audio_device_itf, (audio_mode_t) 0);
+    if (status != 0) {
+        std::cout << "Error setting mode." << status << std::endl;
+        return 0;
+    } else {
+        std::cout << "Mode updated." << status << std::endl;
+    }
 
 
     // Try to open output stream
@@ -133,6 +147,27 @@ int main()
     // } else {
     //     std::cout << "Master volume updated." << status << std::endl;
     // }
+
+    // We link cutils property_get so we can call it
+    // void* lib_cutils = dlopen("/system/lib/libcutils.so", RTLD_GLOBAL);
+    // void* libaudio = dlopen("/system/lib/hw/audio.primary.msm8960.so", RTLD_GLOBAL);
+
+    // void* lib_cutils = dlopen("/system/lib64/libcutils.so", RTLD_GLOBAL);
+    // typedef int (*get_master_volume_t) (struct audio_hw_device *dev, float *volume);
+    // get_master_volume_t hw = (get_master_volume_t) dlsym(libaudio, "audio_hw_device");
+    // audio_hw_device_t* hw = (audio_hw_device_t*) dlsym(libaudio, "audio_t");
+
+    float vol = 0;
+    float* volPtr = &vol;
+
+    status = audio_device_itf->get_master_volume((audio_hw_device*) audio_device_itf, volPtr);
+    // status = hw->get_master_volume(audio_device_itf, volPtr);
+    if (status != 0) {
+        std::cout << "Error retrieving master volume." << status << std::endl;
+        return 0;
+    } else {
+        std::cout << "Master volume is set to: " << *volPtr << std::endl;
+    }
 
 
     // Try to set audio volume

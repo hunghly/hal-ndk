@@ -1,9 +1,9 @@
 LOCAL_PATH:= $(call my-dir)
 
-LOCAL_MODULE := cutils
-LOCAL_SRC_FILES := ./libcutils.so
-# LOCAL_EXPORT_C_INCLUDES := ./include/
-include $(PREBUILT_SHARED_LIBRARY)
+# LOCAL_MODULE := cutils
+# LOCAL_SRC_FILES := ./libcutils.so
+# # LOCAL_EXPORT_C_INCLUDES := ./include/
+# include $(PREBUILT_SHARED_LIBRARY)
 
 include $(CLEAR_VARS)
 LOCAL_MODULE:= hal-ndk
